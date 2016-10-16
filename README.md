@@ -66,7 +66,7 @@ Here is a demo of sysnet running on GNU/Linux Debian 8.5.
 - Linux
 - macOS
 - Windows
-- iOS
+- iOS 9
 
 ### TODO
 
