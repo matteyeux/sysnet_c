@@ -1,0 +1,19 @@
+# This file is used to configure travis-ci build
+os :
+  - linux
+  - osx
+
+language: C
+sudo: false
+
+compiler:
+  - clang
+  - gcc
+
+script : 
+  - make 
+  - ./sysnet -a
+
+notifications:
+  slack: linuxdevteamcorp:nynGSOqMqxqrHyt4QmV2FHXb
+  slack: applemaniateam:U5Z4RTwBlbo03W6GAC2alm7B

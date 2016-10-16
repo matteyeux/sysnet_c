@@ -1,0 +1,7 @@
+a.out
+sysnet
+src/*.o
+sysnet.log
+test.c
+deb
+*.deb
