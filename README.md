@@ -9,9 +9,8 @@
 Usage : sysnet [OPTIONS]
  -s, --system   print system informations
  -n, --network  print network informations
- -d  --disk     print disk informations
- -l, --log      print informations in a log file
  -a, --all      print all informations
+ -v, --version  print version
 ```
 
 Sysnet is a tool which recover system & network informations.
