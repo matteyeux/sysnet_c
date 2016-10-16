@@ -70,7 +70,7 @@ Here is a demo of sysnet running on GNU/Linux Debian 8.5.
 
 ### TODO
 
-The TODO list is on [Trello](https://trello.com/b/KccObdwx/sysnet)
+The TODO list is [here](https://github.com/matteyeux/sysnet/projects/1)
 ### Installation 
 
 I wrote a Makefile to build sysnet run `make` & `sudo make install` to build and install
