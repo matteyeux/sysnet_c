@@ -1,6 +1,6 @@
 # SYSNET
 
-[![Build Status](https://travis-ci.com/matteyeux/sysnet.svg?token=vsNybsdJnqqFaoRpWKLL&branch=master)](https://travis-ci.com/matteyeux/sysnet)
+[![Build Status](https://travis-ci.org/matteyeux/sysnet.svg?branch=master)](https://travis-ci.org/matteyeux/sysnet)
 [![Platform](https://img.shields.io/badge/platform-multiples-yellowgreen.svg)](https://github.com/matteyeux/sysnet#platforms-tested-) 
 [![Packagist](https://img.shields.io/badge/license-MIT-orange.svg)](https://github.com/matteyeux/sysnet/blob/master/LICENSE)&nbsp;
 [![Packagist](https://img.shields.io/badge/contact-matteyeux-blue.svg)](https://twitter.com/matteyeux) 
