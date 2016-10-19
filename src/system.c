@@ -8,8 +8,8 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <sys/sysinfo.h>
-#include "functions.h"
 
+#include "functions.h"
 
 int username()
 {
@@ -31,6 +31,7 @@ int infosys()
 	printf("Operating System :\t%s\nversion :\t\t%s\narchitecture : \t\t%s\n", buf.sysname, buf.release, buf.machine);
 	if(sysinfo(&sys_info) != 0)
 		perror("sysinfo");
+	printf("n° of processes : \t%d\n", sys_info.procs);
 	printf("shell : \t\t%s\n",getenv("SHELL"));
 	return 0;
 }
