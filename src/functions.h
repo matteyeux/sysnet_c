@@ -15,6 +15,7 @@
 #define windows	_WIN32
 
 struct utsname buf;
+struct sysinfo sys_info;
 void print_ram();
 char gateway[255];
 

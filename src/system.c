@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
-
+#include <sys/sysinfo.h>
 #include "functions.h"
 
 
@@ -18,24 +18,26 @@ int username()
     { 
     	return EXIT_FAILURE;
     }
-    printf("User : %s\n",p);
+    printf("User : \t\t\t%s\n",p);
     return 0;   
 }
 
 int infosys() 
 {
-	//struct utsname buf;
 	if (uname(&buf) != 0)
 	{	
 		abort();
 	}
-	printf("Operating System : %s\nversion : %s\narchitecture : %s\n", buf.sysname, buf.release, buf.machine);
+	printf("Operating System :\t%s\nversion :\t\t%s\narchitecture : \t\t%s\n", buf.sysname, buf.release, buf.machine);
+	if(sysinfo(&sys_info) != 0)
+		perror("sysinfo");
+	printf("shell : \t\t%s\n",getenv("SHELL"));
 	return 0;
 }
 
 void disk_infos()
 {
-	char *filename = "/"; // Gonna add it as an arg
+	char *filename = "/"; // Gonna add it as an arg *or not*
 
 	struct statvfs buf;
 	if (!statvfs(filename, &buf)) {
@@ -48,9 +50,9 @@ void disk_infos()
 		free = freeblks * blksize;
 		used = disk_size - free;
 		#ifdef linux
-			printf("Disk usage of %s : %lu \nFree space in %s : %lu\nTotal : %lu\n", filename, used, filename, free, disk_size);
+			printf("Disk usage of %s : \t%lu \nFree space in %s : \t%lu\nTotal : \t\t%lu\n", filename, used, filename, free, disk_size);
 		#else
-			printf("Disk usage of %s : %u \nFree space in %s : %u\nTotal : %u\n", filename, used, filename, free, disk_size);
+			printf("Disk usage of %s : \t%u \nFree space in %s : \t%u\nTotal : \t%u\n", filename, used, filename, free, disk_size);
 		#endif
     } 
     else {

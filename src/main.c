@@ -40,7 +40,6 @@ int main(int argc, char *argv[])
 {	
 	int opt = 0;
 	int optindex=0;
-
 	if (argc < 2)
 	{	
 		usage(argc, argv);
