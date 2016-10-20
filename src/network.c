@@ -83,7 +83,7 @@ int network_infos()
         }
     }
     freeifaddrs(ifaddr);
-   // exit(EXIT_SUCCESS);
+   return 0;
 }
 
 #ifdef linux

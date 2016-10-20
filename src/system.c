@@ -55,11 +55,11 @@ void disk_infos()
 		disk_size = blocks * blksize;
 		free = freeblks * blksize;
 		used = disk_size - free;
-		#ifdef linux
+		//#ifdef linux
 			printf("Disk usage of %s : \t%lu \nFree space in %s : \t%lu\nTotal : \t\t%lu\n", filename, used, filename, free, disk_size);
-		#else
-			printf("Disk usage of %s : \t%u \nFree space in %s : \t%u\nTotal : \t%u\n", filename, used, filename, free, disk_size);
-		#endif
+		//#else
+		//	printf("Disk usage of %s : \t%u \nFree space in %s : \t%u\nTotal : \t%u\n", filename, used, filename, free, disk_size);
+		//#endif
     } 
     else {
 		printf("Couldn't get file system statistics\n");
