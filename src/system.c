@@ -11,7 +11,9 @@
 	#include <sys/sysinfo.h>
 #endif
 #include "functions.h"
-
+#ifdef linux
+struct sysinfo sys_info;
+#endif
 int username()
 {
     char *p=getenv("USER");
