@@ -7,8 +7,9 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <sys/sysinfo.h>
-
+#ifdef linux
+	#include <sys/sysinfo.h>
+#endif
 #include "functions.h"
 
 int username()
@@ -29,9 +30,11 @@ int infosys()
 		abort();
 	}
 	printf("Operating System :\t%s\nversion :\t\t%s\narchitecture : \t\t%s\n", buf.sysname, buf.release, buf.machine);
+	#ifdef linux
 	if(sysinfo(&sys_info) != 0)
 		perror("sysinfo");
 	printf("n° of processes : \t%d\n", sys_info.procs);
+	#endif
 	printf("shell : \t\t%s\n",getenv("SHELL"));
 	return 0;
 }
