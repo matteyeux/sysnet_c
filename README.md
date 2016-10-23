@@ -13,12 +13,10 @@ Usage : sysnet [OPTIONS]
  -v, --version  print version
 ```
 
-Sysnet is a tool which recover system & network informations.
+Sysnet is a tool which recovers system & network information.
 This tool supports Linux, OS X Windows & [iOS](https://github.com/theos/theos)
 
 ###  System 
-
-If you run __sysnet__ with `-s` argument it prints some system informations about your processor and your operating system.
 
 ```
 User : mathieu
@@ -31,12 +29,6 @@ Total : 1510039552
 ```
 
 ### Network
-
-To recover network informations such as IPv6 address or all interfaces on a machine, I used an awesome library : `ifaddrs.h`.
-
-Specialy a function called `getifaddrs` that  creates a linked list of structures describing the network interfaces of the local system.
-
-Instead of `ifconfig`, you don't have to run sysnet as **root** on Debian.
 
 ```
 hostname: debian-dev
