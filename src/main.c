@@ -62,6 +62,9 @@ int main(int argc, char *argv[])
 				printf("=== Network ===\n");
 				hostname();
 				network_infos();
+				#ifdef linux
+					print_gateway();
+				#endif
 				return 0;
 
 			case 's' : 
