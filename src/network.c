@@ -34,7 +34,7 @@ int network_infos()
 {
     struct ifaddrs *ifaddr, *ifa; 
     struct sockaddr *netmask;
-    int family, s, n;
+    int family, s, n, i, suffix;
     char ip_address[NI_MAXHOST];
     char mask[NI_MAXHOST];
 
@@ -51,7 +51,6 @@ int network_infos()
         netmask = ifa->ifa_netmask;
 
         //printf("%s\n", ifa->ifa_name); //usefull for debug
-
         if (family == AF_INET) {
             s = getnameinfo(ifa->ifa_addr,
             (family == AF_INET) ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6), ip_address, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
@@ -75,11 +74,17 @@ int network_infos()
 
             printf("IPv6 %s\n\taddress: %s\n", ifa->ifa_name,ip_address);
         }
-
         if(family == AF_INET && netmask != NULL)
         {   
+            i = 0;
             s = getnameinfo(netmask, sizeof(struct sockaddr_in), mask, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
-            printf("\tnetmask: %s\n", mask);        
+            
+            inet_pton(AF_INET, mask, &suffix);
+            while (suffix > 0) {
+                suffix = suffix >> 1;
+                i++;
+            }
+            printf("\tnetmask: %s\tsuffix : %d\n", mask, i);
         }
     }
     freeifaddrs(ifaddr);
