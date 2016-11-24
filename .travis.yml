@@ -20,5 +20,4 @@ script :
   - ./sysnet -a
 
 notifications:
-  slack: linuxdevteamcorp:nynGSOqMqxqrHyt4QmV2FHXb
-  slack: applemaniateam:U5Z4RTwBlbo03W6GAC2alm7B
+  slack: racletteteam:OmAVC9pxpO7jpkoUR9HICnYS
