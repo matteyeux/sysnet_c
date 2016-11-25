@@ -19,29 +19,34 @@ This tool supports Linux, OS X Windows & [iOS](https://github.com/theos/theos)
 ###  System 
 
 ```
-User : mathieu
-Operating System : Linux
-version : 3.16.0-4-686-pae
-architecture : i686
-Disk usage of / : 3352797184
-Free space in / : 2452209664
-Total : 1510039552
+User : 			mathieu
+Operating System :	Linux
+version :		4.6.4-301.fc24.x86_64
+architecture : 		x86_64
+n° of processes : 	395
+shell : 		/bin/bash
+Disk usage of / : 	5501992960 
+Free space in / : 	23432278016
+Total : 		28934270976
+
 ```
 
 ### Network
 
 ```
-hostname: debian-dev
+hostname: localhost.localdomain
 lo
 	address: 127.0.0.1
-	netmask: 255.0.0.0
-eth0
-	address: 192.168.72.140
-	netmask: 255.255.255.0
+	netmask: 255.0.0.0	suffix : 8
+ens33
+	address: 192.168.72.133
+	netmask: 255.255.255.0	suffix : 24
 IPv6 lo
 	address: ::1
-IPv6 eth0
-	address: fe80::20c:29ff:fe08:74f8%eth0
+IPv6 ens33
+	address: fe80::bb0f:b597:52ce:ba08%ens33
+
+Gateway : 192.168.72.2
 ```
 
 
