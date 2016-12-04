@@ -42,7 +42,7 @@ int infosys()
 	printf("shell : \t\t%s\n",getenv("SHELL"));
 	return 0;
 }
-
+#ifdef linux
 int raminfo() 
 {
     struct sysinfo si;
@@ -54,7 +54,7 @@ int raminfo()
     };
     return 0;
 }
-
+#endif
 void disk_infos()
 {
 	char *filename = "/"; // Gonna add it as an arg *or not*
