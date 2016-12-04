@@ -7,9 +7,11 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+
 #ifdef linux
-	#include <sys/sysinfo.h>
+#include <sys/sysinfo.h>
 #endif
+
 #include "functions.h"
 #ifdef linux
 struct sysinfo sys_info;

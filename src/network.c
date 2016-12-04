@@ -117,8 +117,6 @@ int network_infos()
    return 0;
 }
 
-
-
 #ifdef linux
 int readNlSock(int sockFd, char *bufPtr, int seqNum, int pId)
 {

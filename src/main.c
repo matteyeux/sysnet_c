@@ -6,10 +6,8 @@
 
 /*Easier to understand*/
 #define macosx	__APPLE__ && __MACH__
-//#define linux __linux
-#define windows	_WIN32
 
-#define VERSION "1.0"
+#define VERSION "1.1"
 #define TOOLNAME "Sysnet"
 
 static struct option longopts[] = {
@@ -30,8 +28,6 @@ void usage(int argc, char *argv[])
 	printf("Usage : %s [OPTIONS]\n",(name ? name + 1: argv[0]));
 	printf(" -s, --system\tsystem informations\n");
 	printf(" -n, --network\tnetwork informations\n");
-	//printf(" -d, --disk\tdisk informations\n");
-	//printf(" -l, --log\tinformations in a log file\n");
 	printf(" -a, --all\tsystem & network infos\n");
 	printf(" -v, --version\tversion\n");
 }
