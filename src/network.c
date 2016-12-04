@@ -3,6 +3,7 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <ifaddrs.h>
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -12,7 +13,7 @@
 #include <string.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
-
+#include <errno.h>
 #ifdef linux
 #include <linux/if_link.h>
 #include <linux/netlink.h>
@@ -29,6 +30,27 @@ int hostname()
     printf("hostname: %s\n", hostname);
     return 0;
 }
+
+int get_broadcast(char *host_ip, char *netmask)
+{   
+    struct in_addr host, mask, broadcast;
+    char broadcast_address[INET_ADDRSTRLEN];
+    
+    if (inet_pton(AF_INET, host_ip, &host) == 1 && inet_pton(AF_INET, netmask, &mask) == 1)
+        broadcast.s_addr = host.s_addr | ~mask.s_addr;
+    else {
+        printf("ERROR : %s\n", strerror(errno));
+        return 1;
+    }
+    
+    if (inet_ntop(AF_INET, &broadcast, broadcast_address, INET_ADDRSTRLEN) != NULL)
+        printf("\tbroadcast: %s\n", broadcast_address);
+    else {
+        printf("ERROR : %s\n", strerror(errno));
+        return 1;
+    }
+    return 0;
+}   
 
 int network_infos()
 {
@@ -84,12 +106,18 @@ int network_infos()
                 suffix = suffix >> 1;
                 i++;
             }
-            printf("\tnetmask: %s\tsuffix : %d\n", mask, i);
+            printf("\tnetmask: %s\t\tsuffix : %d\n", mask, i);
+            if (strcmp(ifa->ifa_name, "lo")!=0)
+            {
+                get_broadcast(ip_address, mask);
+            }
         }
     }
     freeifaddrs(ifaddr);
    return 0;
 }
+
+
 
 #ifdef linux
 int readNlSock(int sockFd, char *bufPtr, int seqNum, int pId)

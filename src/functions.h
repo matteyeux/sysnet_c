@@ -1,6 +1,6 @@
 #include <sys/utsname.h>
 #include <sys/statvfs.h>
-
+#include <arpa/inet.h>
 #include <netinet/in.h>
 #include <net/if.h>
 
@@ -29,6 +29,7 @@ struct route_info {
 };
 
 /*System functions*/
+//extern char ip_address[NI_MAXHOST], mask[NI_MAXHOST];
 
 int version();
 int typeOS();
@@ -41,6 +42,7 @@ int diskstat(int argc, char *argv[]);
 
 /*Network functions*/
 int hostname();
+int get_broadcast(char *host_ip, char *netmask);
 int network_infos();
 #ifdef linux
 int readNlSock(int sockFd, char *bufPtr, int seqNum, int pId);
