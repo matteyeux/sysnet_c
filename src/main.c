@@ -54,8 +54,9 @@ int main(int argc, char *argv[])
 				printf("=== System ===\n");
 				username();
 				infosys();
+				raminfo();
 				disk_infos();
-				printf("=== Network ===\n");
+				printf("\n=== Network ===\n");
 				hostname();
 				network_infos();
 				#ifdef linux
@@ -66,6 +67,7 @@ int main(int argc, char *argv[])
 			case 's' : 
 				username();
 				infosys();
+				raminfo();
 				disk_infos();
 				break;
 

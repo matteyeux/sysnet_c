@@ -43,6 +43,18 @@ int infosys()
 	return 0;
 }
 
+int raminfo() 
+{
+    struct sysinfo si;
+    if (sysinfo(&si) == 0) {
+    	double used_ram =  si.totalram/pow(2,30) - si.freeram/pow(2,30);
+    	printf("\nUsed RAM : \t\t%.2lf GB\n", used_ram);
+		printf("Free RAM : \t\t%.2lf GB\n",si.freeram/pow(2,30));
+		printf("Total RAM : \t\t%.2lf GB\n", si.totalram/pow(2,30)); //It's Go for frenchies
+    };
+    return 0;
+}
+
 void disk_infos()
 {
 	char *filename = "/"; // Gonna add it as an arg *or not*
@@ -57,7 +69,7 @@ void disk_infos()
 		disk_size = blocks * blksize;
 		free = freeblks * blksize;
 		used = disk_size - free;
-		printf("Disk usage of %s : \t%lu \nFree space in %s : \t%lu\nTotal : \t\t%lu\n", filename, used, filename, free, disk_size);
+		printf("\nDisk usage of %s : \t%.2lf GB\nFree space in %s : \t%.2lf GB\nTotal : \t\t%.2lf GB\n", filename, used/pow(2,30), filename, free/pow(2,30), disk_size/pow(2,30));
     } 
     else {
 		printf("Couldn't get file system statistics\n");

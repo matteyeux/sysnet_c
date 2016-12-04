@@ -3,6 +3,7 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <net/if.h>
+#include <math.h>
 
 #ifdef linux
 	#include <linux/if_link.h>
@@ -33,12 +34,12 @@ struct route_info {
 
 int version();
 int typeOS();
-int Linux_kern();
 int infosys();
 int username();
 void use_log();
 void disk_infos();
 int diskstat(int argc, char *argv[]);
+int raminfo();
 
 /*Network functions*/
 int hostname();
