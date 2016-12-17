@@ -67,6 +67,7 @@ Here is a demo of sysnet running on GNU/Linux Debian 8.5.
 ### TODO
 
 The TODO list is [here](https://github.com/matteyeux/sysnet/projects/1)
+
 ### Installation 
 
 I wrote a Makefile to build sysnet run `make` & `sudo make install` to build and install
@@ -75,7 +76,12 @@ Make sure you have GCC installed
 
 By default, the install directory is `/usr/bin/`, you can change it by modifying `INSTALL_DIR` variable in the [Makefile](https://github.com/matteyeux/sysnet/blob/master/Makefile#L4) 
 
+You can now cross-compile sysnet for Raspberry Pi and also build and `.deb` to install it. 
+Make sure to have the toolchain setup in your $PATH.
 
+For Ubuntu : `sudo apt-get install gcc-arm-linux-gnueabihf`
+
+Then run `make rpi` to build sysnet for Raspberry Pi <br>
 
 ### Credits
 
