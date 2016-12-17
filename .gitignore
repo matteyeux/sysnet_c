@@ -1,7 +1,8 @@
 a.out
-sysnet
+sysnet*
 src/*.o
 sysnet.log
 test.c
-deb
+*deb
+
 *.deb
