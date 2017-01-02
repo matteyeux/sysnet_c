@@ -15,12 +15,12 @@ OBJECTS = src/main.o \
 all : $(TARGET)
 
 $(TARGET) : $(OBJECTS)
-	$(CC) $(OBJECTS) -o $(TARGET)
+	$(CROSS_COMPILE)$(CC) $(OBJECTS) -o $(TARGET)
 	@echo "Successfully built $(TARGET) for $(uname_s)" 
 
 
 $(SRC)/%.o : $(SRC)/%.c
-	$(CC) -c $< -o $@
+	$(CROSS_COMPILE)$(CC) -c $< -o $@
 
 clean : 
 	@echo "Cleaning..."
