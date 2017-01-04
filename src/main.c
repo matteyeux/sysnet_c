@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 				#ifdef linux
 					print_gateway();
 				#endif
-				printf("\n=== CPU ===");
+				printf("\n=== CPU ===\n");
 				cpu_info();
 				return 0;
 
