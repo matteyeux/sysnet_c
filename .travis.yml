@@ -6,14 +6,7 @@ os :
 language: C
 sudo: true
 
-compiler:
-  - clang
-  - gcc
-
-matrix:
-  exclude:
-      - os: osx
-        compiler: gcc
+compiler: gcc
 
 script :
   - git clone https://github.com/matteyeux/libcpuid && cd libcpuid && ./autogen.sh && sudo make install && sudo ldconfig
