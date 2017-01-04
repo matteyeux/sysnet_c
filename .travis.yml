@@ -25,7 +25,7 @@ addons:
       - wget
 
 script :
-  - git clone https://github.com/matteyeux/libcpuid && cd libcpuid && ./autogen.sh && make install
+  - git clone https://github.com/matteyeux/libcpuid && cd libcpuid && ./autogen.sh && sudo make install
   - make 
   - ./sysnet -a
 
