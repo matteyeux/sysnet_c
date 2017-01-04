@@ -15,15 +15,6 @@ matrix:
       - os: osx
         compiler: gcc
 
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-      - git
-      - autotools-dev
-      - wget
-
 script :
   - git clone https://github.com/matteyeux/libcpuid && cd libcpuid && ./autogen.sh && sudo make install && sudo ldconfig
   - cd ../ && make # Leaving libcpuid directory
