@@ -52,7 +52,7 @@ int get_broadcast(char *host_ip, char *netmask)
     return 0;
 }   
 
-int network_infos()
+int network_info()
 {
     struct ifaddrs *ifaddr, *ifa; 
     struct sockaddr *netmask;

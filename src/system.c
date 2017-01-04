@@ -55,12 +55,10 @@ int raminfo()
     return 0;
 }
 #endif
-void disk_infos()
+int disk_info(const char *partition)
 {
-	char *filename = "/"; // Gonna add it as an arg *or not*
-
 	struct statvfs buf;
-	if (!statvfs(filename, &buf)) {
+	if (!statvfs(partition, &buf)) {
 		unsigned long blksize, blocks, freeblks, disk_size, used, free;
 		blksize = buf.f_bsize;
 		blocks = buf.f_blocks;
@@ -69,9 +67,10 @@ void disk_infos()
 		disk_size = blocks * blksize;
 		free = freeblks * blksize;
 		used = disk_size - free;
-		printf("\nDisk usage of %s : \t%.2lf GB\nFree space in %s : \t%.2lf GB\nTotal : \t\t%.2lf GB\n", filename, used/pow(2,30), filename, free/pow(2,30), disk_size/pow(2,30));
+		printf("Disk usage of %s : \t%.2lf GB\nFree space in %s : \t%.2lf GB\nTotal in %s: \t\t%.2lf GB\n", partition, used/pow(2,30), partition, free/pow(2,30), partition, disk_size/pow(2,30));
     } 
     else {
 		printf("Couldn't get file system statistics\n");
 	}
+	return 0;
 }

@@ -29,22 +29,21 @@ struct route_info {
     char ifName[IF_NAMESIZE];
 };
 
-/*System functions*/
-//extern char ip_address[NI_MAXHOST], mask[NI_MAXHOST];
 
+/*System functions*/
 int version();
 int typeOS();
 int infosys();
 int username();
 void use_log();
-void disk_infos();
+int disk_info(const char *partition);
 int diskstat(int argc, char *argv[]);
 int raminfo();
 
 /*Network functions*/
 int hostname();
 int get_broadcast(char *host_ip, char *netmask);
-int network_infos();
+int network_info();
 #ifdef linux
 int readNlSock(int sockFd, char *bufPtr, int seqNum, int pId);
 void printRoute(struct route_info *rtInfo);
@@ -52,7 +51,6 @@ void printGateway();
 void parseRoutes(struct nlmsghdr *nlHdr, struct route_info *rtInfo);
 int print_gateway();
 #endif
-/*int public_IP();
-int ssid();
-int dns();
-*/
+
+/*CPU functions*/
+int cpu_info(); 

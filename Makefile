@@ -4,18 +4,20 @@ TARGET = sysnet
 INSTALL_DIR ?= /usr/local/bin/
 SRC = src
 VERSION = 1.1
+LDFLAGS = -lcpuid
 
 # Set cross toolchain, eg : CROSS_COMPILE=arm-linux-gnueabihf-
 CROSS_COMPILE ?=
 
 OBJECTS = src/main.o \
 		  src/system.o \
-		  src/network.o
+		  src/network.o \
+		  src/cpu.o
 
 all : $(TARGET)
 
 $(TARGET) : $(OBJECTS)
-	$(CROSS_COMPILE)$(CC) $(OBJECTS) -o $(TARGET)
+	$(CROSS_COMPILE)$(CC) $(OBJECTS) $(LDFLAGS) -o $(TARGET)
 	@echo "Successfully built $(TARGET) for $(uname_s)" 
 
 

@@ -4,7 +4,7 @@ os :
   - osx
 
 language: C
-sudo: false
+sudo: true
 
 compiler:
   - clang
@@ -14,8 +14,18 @@ matrix:
   exclude:
       - os: osx
         compiler: gcc
-        
-script : 
+
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+      - git
+      - autotools-dev
+      - wget
+
+script :
+  - git clone https://github.com/matteyeux/libcpuid && cd libcpuid && ./autogen.sh && make install
   - make 
   - ./sysnet -a
 
