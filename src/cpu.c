@@ -23,6 +23,7 @@ int cpu_init()
         printf("Error: %s\n", cpuid_error());
         return -3;
     }
+	return 0;
 }
 
 int cpu_info()

@@ -6,12 +6,17 @@ os :
 language: C
 sudo: true
 
-compiler: gcc
+compiler:
+  - clang
+  - gcc
 
-script :
-  - git clone https://github.com/matteyeux/libcpuid && cd libcpuid && ./autogen.sh && sudo make install && sudo ldconfig
-  - cd ../ && make # Leaving libcpuid directory
-  - ./sysnet -a
+matrix:
+  exclude:
+      - os: osx
+        compiler: gcc
+        
+script : 
+  - ./resources/travis-tests.sh 
 
 notifications:
-  slack: racletteteam:OmAVC9pxpO7jpkoUR9HICnYS
+	slack: racletteteam:OmAVC9pxpO7jpkoUR9HICnYS
