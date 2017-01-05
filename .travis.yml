@@ -19,4 +19,4 @@ script :
   - ./resources/travis-tests.sh 
 
 notifications:
-	slack: racletteteam:OmAVC9pxpO7jpkoUR9HICnYS
+slack: racletteteam:OmAVC9pxpO7jpkoUR9HICnYS
