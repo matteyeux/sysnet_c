@@ -96,7 +96,7 @@ Run `./scripts/libcpuid-install.sh`. <br>
 This script works for Linux & macOS (you may have brew installed) <br>
 Make sure you have GCC/clang is installed
 
-Once libcpuid is installed run `make` to compile & `sudo make install` to install sysnet
+Once libcpuid is installed run `make` to compile & `sudo make install` to install sysnet. <br>
 By default, the install directory is `/usr/bin/`, you can change it by modifying `INSTALL_DIR` variable in the [Makefile](https://github.com/matteyeux/sysnet/blob/master/Makefile#L4) 
 
 You can now cross-compile sysnet for Raspberry Pi and also build and `.deb` to install it. 
