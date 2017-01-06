@@ -6,3 +6,4 @@ test.c
 *deb
 
 *.deb
+scripts/libcpuid
