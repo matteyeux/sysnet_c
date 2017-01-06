@@ -91,9 +91,12 @@ The TODO list is [here](https://github.com/matteyeux/sysnet/projects/1)
 
 ### Installation 
 
-Since v1.1.1 sysnet needs [libcpuid](https://github.com/matteyeux/libcpuid) to be built.
-Make sure you have GCC installed
+Since v1.1.1 sysnet needs [libcpuid](https://github.com/matteyeux/libcpuid) to be built. I wrote a script to install `libcpuid`. <br>
+Run `./scripts/libcpuid-install.sh`. <br>
+This script works for Linux & macOS (you may have brew installed) <br>
+Make sure you have GCC/clang is installed
 
+Once libcpuid is installed run `make` to compile & `sudo make install` to install sysnet
 By default, the install directory is `/usr/bin/`, you can change it by modifying `INSTALL_DIR` variable in the [Makefile](https://github.com/matteyeux/sysnet/blob/master/Makefile#L4) 
 
 You can now cross-compile sysnet for Raspberry Pi and also build and `.deb` to install it. 
