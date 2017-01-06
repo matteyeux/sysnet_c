@@ -99,10 +99,6 @@ By default, the install directory is `/usr/bin/`, you can change it by modifying
 You can now cross-compile sysnet for Raspberry Pi and also build and `.deb` to install it. 
 Make sure to have the toolchain setup in your $PATH.
 
-For Ubuntu : `sudo apt-get install gcc-arm-linux-gnueabihf`
-
-Then run `make rpi` to build sysnet for Raspberry Pi <br>
-
 ### Credits
 
 Tool developed by [@matteyeux](https://twitter.com/matteyeux)
