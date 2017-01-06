@@ -16,7 +16,7 @@ matrix:
         compiler: gcc
         
 script : 
-  - ./resources/travis-tests.sh 
+  - ./scripts/travis-tests.sh 
 
 notifications:
 slack: racletteteam:OmAVC9pxpO7jpkoUR9HICnYS
