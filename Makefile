@@ -1,5 +1,6 @@
 CC = gcc
 uname_s = $(shell uname -s)
+arch = $(shell arch)
 TARGET = sysnet
 INSTALL_DIR ?= /usr/local/bin/
 SRC = src
@@ -34,10 +35,9 @@ $(SRC)/%.o : $(SRC)/%.c
 	$(CROSS_COMPILE)$(CC) -c $< -o $@
 
 clean : 
-	@echo "Cleaning..."
-	@rm -rf src/*.o deb pideb \
-	$(TARGET) \
-	$(TARGET)_$(VERSION).deb 
+	echo "Cleaning..."
+	@rm -rf src/*.o deb $(TARGET) \
+	$(TARGET)_$(VERSION)_$(arch).deb 
 	
 install : $(TARGET)
 	cp $(TARGET) $(INSTALL_DIR)
@@ -47,5 +47,5 @@ package: $(TARGET) $(RPI)
 	mkdir -p deb/usr/local/bin/ deb/DEBIAN
 	cp $(TARGET) deb/usr/local/bin
 	cp resources/control deb/DEBIAN
-	dpkg-deb --build deb $(TARGET)_$(VERSION).deb
+	dpkg-deb --build deb $(TARGET)_$(VERSION)_$(arch).deb
 	@echo "done"
