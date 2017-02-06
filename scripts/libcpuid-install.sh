@@ -26,6 +26,7 @@ function build_libcpuid(){
 function check4brew(){
 	if [[ ! $(which brew) ]]; then
 		echo "Brew is not installed, please install brew"
+		echo "http://brew.sh"
 		exit 1
 	fi
 }
@@ -56,7 +57,12 @@ function build4macos (){
 }
 
 if [[ $(uname) == "Linux" ]]; then
-	build4linux
+	if [[ $(arch) == "__x86_64__" || $(arch) == "i686" || $(arch) == "i386" ]]; then
+		build4linux
+	else 
+		echo "libcpuid does not support $(arch)"
+		exit 1
+	fi
 elif [[ $(uname) == "Darwin" ]]; then
-	echo "rien"	
+	build4macos
 fi
