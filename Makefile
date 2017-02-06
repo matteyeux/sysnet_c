@@ -4,7 +4,16 @@ TARGET = sysnet
 INSTALL_DIR ?= /usr/local/bin/
 SRC = src
 VERSION = 1.1
-LDFLAGS = -lcpuid
+
+ifeq ($(shell arch),x86_64) 
+	LDFLAGS = -lcpuid
+endif
+ifeq ($(shell arch),i686)
+        LDFLAGS = -lcpuid
+endif
+ifeq ($(shell arch),i386)
+        LDFLAGS = -lcpuid
+endif
 
 # Set cross toolchain, eg : CROSS_COMPILE=arm-linux-gnueabihf-
 CROSS_COMPILE ?=

@@ -31,12 +31,12 @@ void usage(int argc, char *argv[])
 	printf("Usage : %s [OPTIONS]\n",(name ? name + 1: argv[0]));
 	printf(" -s, --system\tsystem information\n");
 	printf(" -n, --network\tnetwork information\n");
+	#if defined (__x86_64__) || defined (__i386__) || defined (__i366__)
 	printf(" -c, --cpu\tcpu information\n");
+	#endif
 	printf(" -d, --disk\tdisk information\n");
 	printf(" -a, --all\tall information\n");
 	printf(" -v, --version\tversion\n");
-	//int test = typename(optarg);
-	//printf("%d",test);
 }
 
 int test (char* testvar)
@@ -76,8 +76,10 @@ int main(int argc, char *argv[])
 				#ifdef linux
 					print_gateway();
 				#endif
+				#if defined (__x86_64__) || defined (__i386__) || defined (__i366__)
 				printf("\n=== CPU ===\n");
 				cpu_info();
+				#endif
 				return 0;
 
 			case 's' : 
