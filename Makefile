@@ -35,9 +35,7 @@ $(SRC)/%.o : $(SRC)/%.c
 	$(CROSS_COMPILE)$(CC) -c $< -o $@
 
 clean : 
-	echo "Cleaning..."
-	@rm -rf src/*.o deb $(TARGET) \
-	$(TARGET)_$(VERSION)_$(arch).deb 
+	rm -rf src/*.o deb $(TARGET) $(TARGET)_$(VERSION)_$(arch).deb 
 	
 install : $(TARGET)
 	cp $(TARGET) $(INSTALL_DIR)
