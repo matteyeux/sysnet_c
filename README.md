@@ -57,7 +57,6 @@ Gateway : 192.168.181.2
 I also added support for disk information :
 
 ```
-$ ./sysnet -d /
 Disk usage of / : 	7.10 GB
 Free space in / : 	30.50 GB
 Total in /: 		37.60 GB
@@ -67,7 +66,6 @@ Total in /: 		37.60 GB
 I am currently improving sysnet by supporting CPU information using [libcpuid](https://github.com/matteyeux/libcpuid)
 
 ```
-$ ./sysnet -c
 Vendor :		GenuineIntel
 Model :			Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz
 Physical cores :	2
@@ -83,7 +81,7 @@ Here is an obsolete demo of sysnet running on GNU/Linux Debian 8.5.
 
 - Linux
 - macOS
-- iOS 9
+- iOS 9 & 10
 
 ### TODO
 
@@ -91,15 +89,22 @@ The TODO list is [here](https://github.com/matteyeux/sysnet/projects/1)
 
 ### Installation 
 
-Since v1.1.1 sysnet needs [libcpuid](https://github.com/matteyeux/libcpuid) to be built. I wrote a script to install `libcpuid`. <br>
+Since v1.1 sysnet for Intel CPUs needs [libcpuid](https://github.com/matteyeux/libcpuid) to be built. I wrote a script to install `libcpuid`. <br>
 Run `./scripts/libcpuid-install.sh`. <br>
 This script works for Linux & macOS (you may have brew installed) <br>
-Make sure you have GCC/clang is installed
+Make sure you have GCC/clang installed
+
+NO NEED FOR ARM ARCHITECTURE
 
 Once libcpuid is installed run `make` to compile & `sudo make install` to install sysnet. <br>
-By default, the install directory is `/usr/bin/`, you can change it by modifying `INSTALL_DIR` variable in the [Makefile](https://github.com/matteyeux/sysnet/blob/master/Makefile#L4) 
+By default, the install directory is `/usr/bin/`, you can change it by modifying `INSTALL_DIR` variable in the [Makefile](https://github.com/matteyeux/sysnet/blob/master/Makefile#L4) <br>
 You can also cross-compile for any platform. You'd have to set `CROSS_COMPILE` with the correct toolchain. <br>
 e.g : `make CROSS_COMPILE=arm-linux-gnueabihf-` <br>
+
+You can also install pre-built packages for few Linux architectures : <br> 
+[sysnet_1.1_aarch64.deb](https://github.com/matteyeux/sysnet/releases/download/1.1/sysnet_1.1_aarch64.deb) <br>
+[sysnet_1.1_armv7l.deb](https://github.com/matteyeux/sysnet/releases/download/1.1/sysnet_1.1_armv7l.deb) <br>
+[sysnet_1.1_x86_64.deb](https://github.com/matteyeux/sysnet/releases/download/1.1/sysnet_1.1_x86_64.deb) <br>
 
 ### Credits
 
