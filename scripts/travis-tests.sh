@@ -9,4 +9,4 @@ if [[ $(uname) == 'Linux' ]];then
 fi
 cd ..
 make
-./sysnet -a && ./sysnet -d / && sysnet -v
+./sysnet -a && ./sysnet -d / && ./sysnet -v
