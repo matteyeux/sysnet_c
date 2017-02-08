@@ -4,6 +4,4 @@ src/*.o
 sysnet.log
 test.c
 *deb
-
-*.deb
 scripts/libcpuid

@@ -8,7 +8,7 @@
 /*Easier to understand*/
 #define macosx	__APPLE__ && __MACH__
 
-#define VERSION "1.1.1"
+#define VERSION "1.1.2"
 #define TOOLNAME "Sysnet"
 #define FLAG_EXTRACT    1 << 0
 
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 		usage(argc, argv);
 		return 0;
 	}
-	while((opt = getopt_long(argc, (char* const *)argv, "asnchv:d", longopts, &optindex)) != -1)
+	while((opt = getopt_long(argc, (char* const *)argv, "asnchvd", longopts, &optindex)) != -1)
 	{
 		switch (opt)
 		{
@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
 				break;
 
 			case 'v' :
-				printf("%s, version %s\nCopyright 2016 - Mathieu Hautebas\n", TOOLNAME, VERSION);
+				printf("%s, version %s\nCompiled on %s\nCopyright 2016-2017 - Mathieu Hautebas\n", TOOLNAME, VERSION, __DATE__);
 				break;
 
 			default:
