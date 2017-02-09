@@ -105,6 +105,7 @@ You can also install pre-built packages for few Linux architectures : <br>
 [sysnet_1.1_aarch64.deb](https://github.com/matteyeux/sysnet/releases/download/1.1/sysnet_1.1_aarch64.deb) <br>
 [sysnet_1.1_armv7l.deb](https://github.com/matteyeux/sysnet/releases/download/1.1/sysnet_1.1_armv7l.deb) <br>
 [sysnet_1.1_x86_64.deb](https://github.com/matteyeux/sysnet/releases/download/1.1/sysnet_1.1_x86_64.deb) <br>
+[sysnet 1.1 for iOS](https://github.com/matteyeux/sysnet/releases/download/1.1/com.matteyeux.sysnet_iphoneos-arm.deb)
 
 ### Credits
 
