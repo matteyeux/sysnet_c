@@ -39,11 +39,6 @@ void usage(int argc, char *argv[])
 	printf(" -v, --version\tversion\n");
 }
 
-int test (char* testvar)
-{
-    printf("%s\n",testvar);
-    return 0;
-}
 int main(int argc, char *argv[])
 {	
 	int opt;
@@ -69,7 +64,8 @@ int main(int argc, char *argv[])
 				#ifdef linux
 				raminfo();
 				#endif
-				//disk_info();
+				printf("\n=== Disk ===\n");
+				disk_info("/");
 				printf("\n=== Network ===\n");
 				hostname();
 				network_info();
