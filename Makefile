@@ -32,7 +32,7 @@ $(TARGET) : $(OBJECTS)
 
 
 $(SRC)/%.o : $(SRC)/%.c
-	$(CROSS_COMPILE)$(CC) -c $< -o $@
+	$(CROSS_COMPILE)$(CC) -c -I. $< -o $@
 
 clean : 
 	rm -rf src/*.o deb $(TARGET) $(TARGET)_$(VERSION)_$(arch).deb 

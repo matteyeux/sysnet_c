@@ -7,15 +7,13 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
-
+#include <math.h>
 #ifdef linux
 #include <sys/sysinfo.h>
 #endif
 
-#include "functions.h"
-#ifdef linux
-struct sysinfo sys_info;
-#endif
+#include <include/system.h>
+
 int username()
 {
     char *p=getenv("USER");

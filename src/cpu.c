@@ -1,6 +1,7 @@
 #include <stdio.h>
 #if defined (__x86_64__) || defined (__i386__) || defined (__i366__)
 #include <libcpuid/libcpuid.h>
+#include <include/cpu.h>
 
 struct cpu_raw_data_t raw; 
 struct cpu_id_t data;    

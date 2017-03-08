@@ -3,7 +3,10 @@
 #include <string.h>
 #include <getopt.h>
 #include <assert.h>
-#include "functions.h"
+
+#include <include/system.h>
+#include <include/network.h>
+#include <include/cpu.h>
 
 /*Easier to understand*/
 #define macosx	__APPLE__ && __MACH__
@@ -97,7 +100,8 @@ int main(int argc, char *argv[])
 
 			case 'd' :
 				if (!argv[optind])
-				{
+				{	
+					printf("%d", optind);
 					argv[optind] = "/";
 				}
 				disk_info(argv[optind]);
