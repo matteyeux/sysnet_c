@@ -57,7 +57,7 @@ function build4macos (){
 }
 
 if [[ $(uname) == "Linux" ]]; then
-	if [[ $(arch) == "__x86_64__" || $(arch) == "i686" || $(arch) == "i386" ]]; then
+	if [[ $(arch) == "x86_64" || $(arch) == "i686" || $(arch) == "i386" ]]; then
 		build4linux
 	else 
 		echo "libcpuid does not support $(arch)"
