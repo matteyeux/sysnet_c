@@ -87,7 +87,6 @@ int main(int argc, char *argv[])
 				#ifdef linux
 				raminfo();
 				#endif 
-				//disk_info();
 				break;
 
 			case 'n' :
@@ -101,7 +100,6 @@ int main(int argc, char *argv[])
 			case 'd' :
 				if (!argv[optind])
 				{	
-					printf("%d", optind);
 					argv[optind] = "/";
 				}
 				disk_info(argv[optind]);
