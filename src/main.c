@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 				printf("\n=== CPU ===\n");
 				cpu_info();
 				#endif
-				return 0;
+				break;
 
 			case 's' : 
 				username();
