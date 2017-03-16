@@ -16,12 +16,12 @@
 
 int username()
 {
-    char *p=getenv("USER");
-    if(p==NULL)
+    char *user=getenv("USER");
+    if(user==NULL)
     { 
     	return EXIT_FAILURE;
     }
-    printf("User : \t\t\t%s\n",p);
+    printf("User : \t\t\t%s\n",user);
     return 0;   
 }
 
