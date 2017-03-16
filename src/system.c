@@ -17,12 +17,14 @@
 int username()
 {
     char *user=getenv("USER");
+	int uid = getuid();
     if(user==NULL)
     { 
     	return EXIT_FAILURE;
     }
     printf("User : \t\t\t%s\n",user);
-    return 0;   
+    printf("UID : \t\t\t%d\n", uid);
+	return 0;   
 }
 
 int infosys() 
