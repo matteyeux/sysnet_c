@@ -39,6 +39,7 @@ int cpu_info()
     printf("Vendor :\t\t%s\n", data.vendor_str);
     printf("Model :\t\t\t%s\n", data.brand_str);
     printf("Physical cores :\t%d\n", data.num_cores);
+	printf("Codename :\t\t%s\n", data.cpu_codename);
 	#endif
 	return 0;
 }
