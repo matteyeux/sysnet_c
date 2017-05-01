@@ -18,7 +18,7 @@ function build_libcpuid(){
 	autoreconf --install
 	./configure
 	make 
-	sudo make install
+	sudo make install && cd ..
 }
 
 function check4brew(){
