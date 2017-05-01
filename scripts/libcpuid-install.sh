@@ -59,7 +59,6 @@ if [[ $(uname) == "Linux" ]]; then
 		build4linux
 	else 
 		echo "libcpuid does not support $(arch)"
-		exit 1
 	fi
 elif [[ $(uname) == "Darwin" ]]; then
 	build4macos
