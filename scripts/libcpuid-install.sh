@@ -11,14 +11,12 @@
 #               bash
 # Version : 1.0
 
-srcdir=`dirname $0`
-test -z "$srcdir"
-
-
 function build_libcpuid(){
-	git clone https://github.com/matteyeux/libcpuid
-	cd $srcdir/libcpuid
-	./autogen.sh
+	git clone https://github.com/anrieff/libcpuid.git
+	cd libcpuid
+	libtoolize
+	autoreconf --install
+	./configure
 	make 
 	sudo make install
 }
