@@ -52,7 +52,7 @@ install : $(TARGET)
 	cp $(TARGET) $(INSTALL_DIR)
 
 # make CROSS_COMPILE=arm-linux-gnueabihf- package
-package: $(TARGET) $(RPI)
+package: $(TARGET)
 	@echo "Packing..."
 	mkdir -p deb/usr/local/bin/ deb/DEBIAN
 	cp $(TARGET) deb/usr/local/bin
