@@ -35,12 +35,14 @@ OBJECTS = src/main.o \
 all : $(TARGET)
 
 $(TARGET) : $(OBJECTS)
-	$(CROSS_COMPILE)$(CC) $(OBJECTS) $(LDFLAGS) -o $(TARGET)
+	@echo "LD	$(TARGET)"
+	@$(CROSS_COMPILE)$(CC) $(OBJECTS) $(LDFLAGS) -o $(TARGET)
 	@echo "Successfully built $(TARGET) for $(uname_s) on $(arch)" 
 
 
 $(SRC)/%.o : $(SRC)/%.c
-	$(CROSS_COMPILE)$(CC) -c -I. $< -o $@
+	@echo "CC	$<"
+	@$(CROSS_COMPILE)$(CC) -c -I. $< -o $@
 
 clean : 
 	rm -rf src/*.o deb $(TARGET)*
