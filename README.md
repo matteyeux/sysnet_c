@@ -82,6 +82,7 @@ Here is an obsolete demo of sysnet running on GNU/Linux Debian 8.5.
 - Linux
 - macOS
 - iOS 9 & 10
+- Windows Subsystem for Linux (WSL)
 
 ### TODO
 
