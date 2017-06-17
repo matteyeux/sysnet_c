@@ -5,7 +5,8 @@ TARGET = sysnet
 INSTALL_DIR ?= /usr/local/bin/
 SRC = src
 VERSION = 1.1.2
-
+DEBUG ?=
+DBG ?=
 ifeq ($(shell arch),x86_64) 
 	LDFLAGS = -lcpuid
 endif
@@ -14,6 +15,10 @@ ifeq ($(shell arch),i686)
 endif
 ifeq ($(shell arch),i386)
         LDFLAGS = -lcpuid
+endif
+
+ifeq ($(DEBUG), 1)
+     DBG = -DDEBUG
 endif
 
 # Set cross toolchain, eg : CROSS_COMPILE=arm-linux-gnueabihf-
@@ -37,12 +42,12 @@ all : $(TARGET)
 $(TARGET) : $(OBJECTS)
 	@echo "LD	$(TARGET)"
 	@$(CROSS_COMPILE)$(CC) $(OBJECTS) $(LDFLAGS) -o $(TARGET)
-	@echo "Successfully built $(TARGET) for $(uname_s) on $(arch)" 
+	@echo "Successfully built $(TARGET) on $(uname_s) for $(arch)" 
 
 
 $(SRC)/%.o : $(SRC)/%.c
 	@echo "CC	$<"
-	@$(CROSS_COMPILE)$(CC) -c -I. $< -o $@
+	@$(CROSS_COMPILE)$(CC) -c $(DBG) -I. $< -o $@
 
 clean : 
 	rm -rf src/*.o deb $(TARGET)*

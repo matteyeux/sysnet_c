@@ -11,7 +11,11 @@
 /*Easier to understand*/
 #define macosx	__APPLE__ && __MACH__
 
-#define VERSION "1.1.2"
+#ifdef DEBUG
+	#define VERSION "1.1.2-DEBUG"
+#else 
+	#define VERSION "1.1.2"
+#endif
 #define TOOLNAME "Sysnet"
 #define FLAG_EXTRACT    1 << 0
 
@@ -40,6 +44,9 @@ void usage(int argc, char *argv[])
 	printf(" -d, --disk\tdisk information\n");
 	printf(" -a, --all\tall information\n");
 	printf(" -v, --version\tversion\n");
+	#ifdef DEBUG
+		printf("DEBUG: ON\n");
+	#endif
 }
 
 int main(int argc, char *argv[])
