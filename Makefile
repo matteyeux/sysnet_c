@@ -6,19 +6,22 @@ INSTALL_DIR ?= /usr/local/bin/
 SRC = src
 VERSION = 1.1.2
 DEBUG ?=
+DEBUGYESNO ?=
 DBG ?=
+
 ifeq ($(shell arch),x86_64) 
 	LDFLAGS = -lcpuid
 endif
 ifeq ($(shell arch),i686)
-        LDFLAGS = -lcpuid
+	LDFLAGS = -lcpuid
 endif
 ifeq ($(shell arch),i386)
-        LDFLAGS = -lcpuid
+	LDFLAGS = -lcpuid
 endif
 
 ifeq ($(DEBUG), 1)
-     DBG = -DDEBUG
+	DBG = -DDEBUG
+	DEBUGYESNO = "with DEBUG flags"
 endif
 
 # Set cross toolchain, eg : CROSS_COMPILE=arm-linux-gnueabihf-
@@ -42,7 +45,7 @@ all : $(TARGET)
 $(TARGET) : $(OBJECTS)
 	@echo "LD	$(TARGET)"
 	@$(CROSS_COMPILE)$(CC) $(OBJECTS) $(LDFLAGS) -o $(TARGET)
-	@echo "Successfully built $(TARGET) on $(uname_s) for $(arch)" 
+	@echo "Successfully built $(TARGET) on $(uname_s) for $(arch) $(DEBUGYESNO)" 
 
 
 $(SRC)/%.o : $(SRC)/%.c
