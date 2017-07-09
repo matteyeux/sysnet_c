@@ -73,15 +73,15 @@ Physical cores :	2
 
 ### Demo
 
-Here is an obsolete demo of sysnet running on GNU/Linux Debian 8.5. 
+Here is a demo of sysnet running on GNU/Linux Debian 8.5. 
 
-[![sysnet demo](https://asciinema.org/a/6jo8dd7d66ljrso5xon8ob5ub.png)](https://asciinema.org/a/6jo8dd7d66ljrso5xon8ob5ub)
+[![sysnet demo](https://asciinema.org/a/Ld5fe5Zy8qLBx9zcA8RKqQV3S.png)](https://asciinema.org/a/Ld5fe5Zy8qLBx9zcA8RKqQV3S)
 
 ### Platforms tested :
 
 - Linux
 - macOS
-- iOS 9 & 10
+- iOS 6 - 10
 - Windows Subsystem for Linux (WSL)
 
 ### TODO
