@@ -59,7 +59,7 @@ clean_all : clean
 	rm -rf deb *.deb $(TARGET)_$(VERSION)_$(arch).deb 
 
 install : $(TARGET)
-	cp $(TARGET) $(INSTALL_DIR)
+	install -v $(TARGET) $(INSTALL_DIR)
 
 # make CROSS_COMPILE=arm-linux-gnueabihf- package
 package: $(TARGET)
