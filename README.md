@@ -92,7 +92,7 @@ The TODO list is [here](https://github.com/matteyeux/sysnet/projects/1)
 
 Since v1.1 sysnet for Intel CPUs needs [libcpuid](https://github.com/matteyeux/libcpuid) to be built. I wrote a script to install `libcpuid`. <br>
 Run `./scripts/libcpuid-install.sh`. <br>
-This script works for Linux & macOS (you may have brew installed) <br>
+This script works for Linux & macOS (you may have [brew](https://brew.sh) installed) <br>
 Make sure you have GCC/clang installed
 
 NO NEED FOR ARM ARCHITECTURE
