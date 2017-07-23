@@ -56,6 +56,9 @@ $(SRC)/%.o : $(SRC)/%.c
 	@echo " CC	$<"
 	@$(CROSS_COMPILE)$(CC) -c $(DBG) -I. $< -o $@
 
+test : tarball
+	docker build -t matteyeux/sysnet_test .
+
 clean : 
 	rm -rf src/*.o deb $(TARGET)*
 
@@ -64,6 +67,10 @@ clean_all : clean
 
 install : $(TARGET)
 	install -v $(TARGET) $(INSTALL_DIR)
+
+tarball : clean
+	tar zcvf ../$(TARGET).$(VERSION).tar.gz ../$(TARGET)
+	mv ../$(TARGET).$(VERSION).tar.gz .
 
 # make CROSS_COMPILE=arm-linux-gnueabihf- package
 package: $(TARGET)
