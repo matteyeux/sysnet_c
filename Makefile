@@ -22,7 +22,12 @@ endif
 ifeq ($(DEBUG), 1)
 	DBG = -DDEBUG
 	DEBUGYESNO = "with DEBUG flags"
+	DEBUG-V = "-DEBUG"
 endif
+
+define print_success
+	@echo "\033[0;32m$1\033[0m"
+endef
 
 # Set cross toolchain, eg : CROSS_COMPILE=arm-linux-gnueabihf-
 CROSS_COMPILE ?=
@@ -43,14 +48,16 @@ OBJECTS = src/main.o \
 all : $(TARGET)
 
 $(TARGET) : $(OBJECTS)
-	@echo "LD	$(TARGET)"
+	@echo " LD	$(TARGET)"
 	@$(CROSS_COMPILE)$(CC) $(OBJECTS) $(LDFLAGS) -o $(TARGET)
-	@echo "Successfully built $(TARGET) on $(uname_s) for $(arch) $(DEBUGYESNO)" 
-
+	$(call print_success, "Successfully built $(TARGET) version $(VERSION)$(DEBUG-V) on $(uname_s) for $(arch) $(DEBUGYESNO)")
 
 $(SRC)/%.o : $(SRC)/%.c
-	@echo "CC	$<"
+	@echo " CC	$<"
 	@$(CROSS_COMPILE)$(CC) -c $(DBG) -I. $< -o $@
+
+test : tarball
+	docker build -t matteyeux/sysnet_test .
 
 clean : 
 	rm -rf src/*.o deb $(TARGET)*
@@ -59,7 +66,11 @@ clean_all : clean
 	rm -rf deb *.deb $(TARGET)_$(VERSION)_$(arch).deb 
 
 install : $(TARGET)
-	cp $(TARGET) $(INSTALL_DIR)
+	install -v $(TARGET) $(INSTALL_DIR)
+
+tarball : clean
+	tar zcvf ../$(TARGET).$(VERSION).tar.gz ../$(TARGET)
+	mv ../$(TARGET).$(VERSION).tar.gz .
 
 # make CROSS_COMPILE=arm-linux-gnueabihf- package
 package: $(TARGET)
