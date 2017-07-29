@@ -35,15 +35,15 @@ void usage(int argc, char *argv[])
 {
 	char *name = NULL;
     name = strrchr(argv[0], '/');
-	printf("Usage : %s [OPTIONS]\n",(name ? name + 1: argv[0]));
-	printf(" -s, --system\tsystem information\n");
-	printf(" -n, --network\tnetwork information\n");
+	fprintf(stdout, "Usage : %s [OPTIONS]\n",(name ? name + 1: argv[0]));
+	fprintf(stdout, " -s, --system\tsystem information\n");
+	fprintf(stdout, " -n, --network\tnetwork information\n");
 	#if defined (__x86_64__) || defined (__i386__) || defined (__i366__)
-	printf(" -c, --cpu\tcpu information\n");
+	fprintf(stdout, " -c, --cpu\tcpu information\n");
 	#endif
-	printf(" -d, --disk\tdisk information\n");
-	printf(" -a, --all\tall information\n");
-	printf(" -v, --version\tversion\n");
+	fprintf(stdout, " -d, --disk\tdisk information\n");
+	fprintf(stdout, " -a, --all\tall information\n");
+	fprintf(stdout, " -v, --version\tversion\n");
 	#ifdef DEBUG
 		printf("DEBUG: ON\n");
 	#endif
@@ -53,6 +53,11 @@ int main(int argc, char *argv[])
 {	
 	int opt;
 	int optindex=0;
+	int system = 0;
+	int network = 0;
+	int cpu = 0;
+	int disk = 0;
+	int all = 0;
 
 	if (argc < 2)
 	{	
@@ -68,41 +73,45 @@ int main(int argc, char *argv[])
 				return 0;
 
 			case 'a' :
-				printf("=== System ===\n");
+				fprintf(stdout, "=== System ===\n");
 				username();
 				infosys();
 				#ifdef linux
 				raminfo();
 				#endif
-				printf("\n=== Disk ===\n");
+				fprintf(stdout, "\n=== Disk ===\n");
 				disk_info("/");
-				printf("\n=== Network ===\n");
+				fprintf(stdout, "\n=== Network ===\n");
 				hostname();
 				network_info();
 				#ifdef linux
 					print_gateway();
 				#endif
 				#if defined (__x86_64__) || defined (__i386__) || defined (__i366__)
-				printf("\n=== CPU ===\n");
+				fprintf(stdout, "\n=== CPU ===\n");
 				cpu_info();
 				#endif
 				break;
 
 			case 's' : 
-				username();
+				system = 1;
+				break;
+				/*username();
 				infosys();
 				#ifdef linux
 				raminfo();
 				#endif 
-				break;
+				break;*/
 
 			case 'n' :
-				hostname();
+				network = 1;
+				break;
+				/*hostname();
 				network_info();
 				#ifdef linux
 				print_gateway();
-				#endif
-				break;
+				#endif*/
+				//break;
 
 			case 'd' :
 				if (!argv[optind])
@@ -116,12 +125,30 @@ int main(int argc, char *argv[])
 				break;
 
 			case 'v' :
-				printf("%s, version %s\nCompiled on %s\nCopyright 2016-2017 - Mathieu Hautebas\n", TOOLNAME, VERSION, __DATE__);
+				fprintf(stdout, "%s, version %s\nCompiled on %s\nCopyright 2016-2017 - Mathieu Hautebas\n", TOOLNAME, VERSION, __DATE__);
 				break;
 
 			default:
 				usage(argc, argv);
 				return -1;
+		}
+		if (system)
+		{
+			username();
+			infosys();
+			#ifdef linux
+				raminfo();
+			#endif 
+			break;
+		}
+
+		if (network)
+		{
+			hostname();
+				network_info();
+				#ifdef linux
+				print_gateway();
+				#endif
 		}
 	}
 	return 0;

@@ -28,7 +28,7 @@ int hostname()
     char hostname[1024];
     hostname[1023] = '\0';
     gethostname(hostname, 1023);
-    printf("hostname: %s\n", hostname);
+    fprintf(stdout, "hostname: %s\n", hostname);
     return 0;
 }
 
@@ -40,14 +40,14 @@ int get_broadcast(char *host_ip, char *netmask)
     if (inet_pton(AF_INET, host_ip, &host) == 1 && inet_pton(AF_INET, netmask, &mask) == 1)
         broadcast.s_addr = host.s_addr | ~mask.s_addr;
     else {
-        printf("ERROR : %s\n", strerror(errno));
+        fprintf(stderr, "ERROR : %s\n", strerror(errno));
         return 1;
     }
     
     if (inet_ntop(AF_INET, &broadcast, broadcast_address, INET_ADDRSTRLEN) != NULL)
-        printf("\tbroadcast: %s\n", broadcast_address);
+        fprintf(stdout, "\tbroadcast: %s\n", broadcast_address);
     else {
-        printf("ERROR : %s\n", strerror(errno));
+        fprintf(stderr, "ERROR : %s\n", strerror(errno));
         return 1;
     }
     return 0;
@@ -79,11 +79,11 @@ int network_info()
             (family == AF_INET) ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6), ip_address, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
             
             if (s != 0) {
-                printf("getnameinfo() failed: %s\n", gai_strerror(s));
+                fprintf(stderr, "getnameinfo() failed: %s\n", gai_strerror(s));
                 exit(EXIT_FAILURE);
             }
 
-            printf("%s\n\taddress: %s\n", ifa->ifa_name,ip_address);
+            fprintf(stdout, "%s\n\taddress: %s\n", ifa->ifa_name,ip_address);
         }
 
         else if (family == AF_INET6) {
@@ -91,11 +91,11 @@ int network_info()
             (family == AF_INET) ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6), ip_address, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
             
             if (s != 0) {
-                printf("getnameinfo() failed: %s\n", gai_strerror(s));
+                fprintf(stderr, "getnameinfo() failed: %s\n", gai_strerror(s));
                 exit(EXIT_FAILURE);
             }
 
-            printf("IPv6 %s\n\taddress: %s\n", ifa->ifa_name,ip_address);
+            fprintf(stdout, "IPv6 %s\n\taddress: %s\n", ifa->ifa_name,ip_address);
         }
         if(family == AF_INET && netmask != NULL)
         {   
@@ -107,7 +107,7 @@ int network_info()
                 suffix = suffix >> 1;
                 i++;
             }
-            printf("\tnetmask: %s\t\tsuffix : %d\n", mask, i);
+            fprintf(stdout, "\tnetmask: %s\t\tsuffix : %d\n", mask, i);
             if (strcmp(ifa->ifa_name, "lo")!=0)
             {
                 get_broadcast(ip_address, mask);
@@ -250,13 +250,13 @@ int print_gateway()
     nlMsg->nlmsg_pid = getpid();   
 
     if (send(sock, nlMsg, nlMsg->nlmsg_len, 0) < 0) {
-        printf("Write To Socket Failed...\n");
+        fprintf(stderr, "Write To Socket Failed...\n");
         return -1;
     }
 
 /* Read the response */
     if ((len = readNlSock(sock, msgBuf, msgSeq, getpid())) < 0) {
-        printf("Read From Socket Failed...\n");
+        fprintf(stderr, "Read From Socket Failed...\n");
     return -1;
     }
 
@@ -270,7 +270,7 @@ int print_gateway()
     close(sock);
     if (strcmp(gateway, "")!=0)
     {
-        printf("\nGateway : %s\n", gateway);
+        fprintf(stdout, "\nGateway : %s\n", gateway);
     }
     //printGateway();
     return 0;

@@ -22,8 +22,8 @@ int username()
     { 
     	return EXIT_FAILURE;
     }
-    printf("User : \t\t\t%s\n",user);
-    printf("UID : \t\t\t%d\n", uid);
+    fprintf(stdout, "User : \t\t\t%s\n",user);
+    fprintf(stdout, "UID : \t\t\t%d\n", uid);
 	return 0;   
 }
 
@@ -33,13 +33,14 @@ int infosys()
 	{	
 		abort();
 	}
-	printf("Operating System :\t%s\nversion :\t\t%s\narchitecture : \t\t%s\n", buf.sysname, buf.release, buf.machine);
+	fprintf(stdout, "Operating System :\t%s\nversion :\t\t%s\narchitecture : \t\t%s\n", buf.sysname, buf.release, buf.machine);
 	#ifdef linux
 	if(sysinfo(&sys_info) != 0)
 		perror("sysinfo");
-	printf("n° of processes : \t%d\n", sys_info.procs);
+	fprintf(stdout, "n° of processes : \t%d\n", sys_info.procs);
+	fprintf(stdout, "swap : %ld\n", sys_info.totalswap);
 	#endif
-	printf("shell : \t\t%s\n",getenv("SHELL"));
+	fprintf(stdout, "shell : \t\t%s\n",getenv("SHELL"));
 	return 0;
 }
 #ifdef linux
@@ -48,9 +49,9 @@ int raminfo()
     struct sysinfo si;
     if (sysinfo(&si) == 0) {
     	double used_ram =  si.totalram/pow(2,30) - si.freeram/pow(2,30);
-    	printf("\nUsed RAM : \t\t%.2lf GB\n", used_ram);
-		printf("Free RAM : \t\t%.2lf GB\n",si.freeram/pow(2,30));
-		printf("Total RAM : \t\t%.2lf GB\n", si.totalram/pow(2,30)); //It's Go for frenchies
+    	fprintf(stdout, "\nUsed RAM : \t\t%.2lf GB\n", used_ram);
+		fprintf(stdout, "Free RAM : \t\t%.2lf GB\n",si.freeram/pow(2,30));
+		fprintf(stdout, "Total RAM : \t\t%.2lf GB\n", si.totalram/pow(2,30)); //It's Go for frenchies
     };
     return 0;
 }
@@ -67,10 +68,10 @@ int disk_info(const char *partition)
 		disk_size = blocks * blksize;
 		free = freeblks * blksize;
 		used = disk_size - free;
-		printf("Disk usage of %s : \t%.2lf GB\nFree space in %s : \t%.2lf GB\nTotal in %s: \t\t%.2lf GB\n", partition, used/pow(2,30), partition, free/pow(2,30), partition, disk_size/pow(2,30));
+		fprintf(stdout, "Disk usage of %s : \t%.2lf GB\nFree space in %s : \t%.2lf GB\nTotal in %s: \t\t%.2lf GB\n", partition, used/pow(2,30), partition, free/pow(2,30), partition, disk_size/pow(2,30));
     } 
     else {
-		printf("Couldn't get file system statistics\n");
+		fprintf(stderr, "Couldn't get file system statistics\n");
 	}
 	return 0;
 }

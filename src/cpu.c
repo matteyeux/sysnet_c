@@ -10,24 +10,24 @@ int cpu_init()
 {
 	#if defined (__x86_64__) || defined (__i386__) || defined (__i366__)
 	if (!cpuid_present()) {
-        printf("Sorry, your CPU doesn't support CPUID!\n");
+        fprintf(stderr, "Sorry, your CPU doesn't support CPUID!\n");
         return -1;
     }
 
 
     if (cpuid_get_raw_data(&raw) < 0) { 
-        printf("Sorry, cannot get the CPUID raw data.\n");
-        printf("Error: %s\n", cpuid_error());
+        fprintf(stderr, "Sorry, cannot get the CPUID raw data.\n");
+        fprintf(stderr, "Error: %s\n", cpuid_error());
         return -2;
     }
 
     if (cpu_identify(&raw, &data) < 0) {    
-        printf("Sorrry, CPU identification failed.\n");
-        printf("Error: %s\n", cpuid_error());
+        fprintf(stderr, "Sorrry, CPU identification failed.\n");
+        fprintf(stderr, "Error: %s\n", cpuid_error());
         return -3;
     }
 	#else
-	printf("[ERROR] CPU not supported\n");
+	fprintf(stderr, "[ERROR] CPU not supported\n");
 	#endif
 	return 0;
 }
