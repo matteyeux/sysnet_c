@@ -21,4 +21,4 @@ script :
   - ./scripts/travis-tests.sh 
 
 notifications:
-slack: racletteteam:yNr1RLBfL0oAqMSo1GwJKTiD
+    slack: racletteteam:AoVBxu943PS49TvYlhGGjXS9
