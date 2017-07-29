@@ -94,24 +94,20 @@ int main(int argc, char *argv[])
 				break;
 
 			case 's' : 
-				system = 1;
-				break;
-				/*username();
+				username();
 				infosys();
 				#ifdef linux
 				raminfo();
 				#endif 
-				break;*/
+				break;
 
 			case 'n' :
-				network = 1;
-				break;
-				/*hostname();
+				hostname();
 				network_info();
 				#ifdef linux
 				print_gateway();
-				#endif*/
-				//break;
+				#endif
+				break;
 
 			case 'd' :
 				if (!argv[optind])
@@ -131,24 +127,6 @@ int main(int argc, char *argv[])
 			default:
 				usage(argc, argv);
 				return -1;
-		}
-		if (system)
-		{
-			username();
-			infosys();
-			#ifdef linux
-				raminfo();
-			#endif 
-			break;
-		}
-
-		if (network)
-		{
-			hostname();
-				network_info();
-				#ifdef linux
-				print_gateway();
-				#endif
 		}
 	}
 	return 0;
