@@ -53,11 +53,6 @@ int main(int argc, char *argv[])
 {	
 	int opt;
 	int optindex=0;
-	int system = 0;
-	int network = 0;
-	int cpu = 0;
-	int disk = 0;
-	int all = 0;
 
 	if (argc < 2)
 	{	
