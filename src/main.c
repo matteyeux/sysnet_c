@@ -17,14 +17,12 @@
 	#define VERSION "1.1.2"
 #endif
 #define TOOLNAME "Sysnet"
-#define FLAG_EXTRACT    1 << 0
 
-//extern char *optarg;
 static struct option longopts[] = {
 	{ "all", 		no_argument,	NULL, 'a'},
 	{ "system",		no_argument,	NULL, 's'},
 	{ "network", 	no_argument,	NULL, 'n'},
-	{ "disk", 		required_argument,	NULL, 'd'}, // I have an idea for this arg, need to investigate more
+	{ "disk", 		required_argument,	NULL, 'd'},
 	{ "cpu", 		no_argument, 	NULL, 'c'},
 	{ "version", 	no_argument, 	NULL, 'v'},
 	{ "help", 		no_argument, 	NULL, 'h'},
@@ -34,7 +32,7 @@ static struct option longopts[] = {
 void usage(int argc, char *argv[])
 {
 	char *name = NULL;
-    name = strrchr(argv[0], '/');
+	name = strrchr(argv[0], '/');
 	fprintf(stdout, "Usage : %s [OPTIONS]\n",(name ? name + 1: argv[0]));
 	fprintf(stdout, " -s, --system\tsystem information\n");
 	fprintf(stdout, " -n, --network\tnetwork information\n");
