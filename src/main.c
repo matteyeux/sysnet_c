@@ -12,9 +12,9 @@
 #define macosx	__APPLE__ && __MACH__
 
 #ifdef DEBUG
-	#define VERSION "1.1.2-DEBUG"
+	#define VERSION "1.2.0-DEBUG"
 #else 
-	#define VERSION "1.1.2"
+	#define VERSION "1.2.0"
 #endif
 #define TOOLNAME "Sysnet"
 
