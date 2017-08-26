@@ -13,6 +13,7 @@
 #endif
 
 #include <include/system.h>
+#include <include/common.h>
 
 int username()
 {
@@ -48,11 +49,11 @@ int raminfo()
 {
     struct sysinfo si;
     if (sysinfo(&si) == 0) {
-    	double used_ram =  si.totalram/pow(2,30) - si.freeram/pow(2,30);
+    	double used_ram =  convert2gb(si.totalram, si.freeram);
     	fprintf(stdout, "\nUsed RAM : \t\t%.2lf GB\n", used_ram);
-		fprintf(stdout, "Free RAM : \t\t%.2lf GB\n",si.freeram/pow(2,30));
-		fprintf(stdout, "Total RAM : \t\t%.2lf GB\n", si.totalram/pow(2,30)); //It's Go for frenchies
-    };
+		fprintf(stdout, "Free RAM : \t\t%.2lf GB\n", convert2gb(0, si.freeram));
+		fprintf(stdout, "Total RAM : \t\t%.2lf GB\n", convert2gb(0, si.totalram));
+    }
     return 0;
 }
 #endif
