@@ -43,7 +43,8 @@ endif
 OBJECTS = src/main.o \
 		  src/system.o \
 		  src/network.o \
-		  src/cpu.o
+		  src/cpu.o \
+		  src/common.o
 
 all : $(TARGET)
 
