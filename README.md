@@ -102,7 +102,7 @@ By default, the install directory is `/usr/bin/`, you can change it by modifying
 You can also cross-compile for any platform. You'd have to set `CROSS_COMPILE` with the correct toolchain. <br>
 e.g : `make CROSS_COMPILE=arm-linux-gnueabihf-` <br>
 
-You can also install pre-built packages for few Linux architectures :check [releases page](https://github.com/matteyeux/sysnet/releases)
+You can also install pre-built packages for few Linux architectures : check [releases page](https://github.com/matteyeux/sysnet/releases)
 
 ### Credits
 
