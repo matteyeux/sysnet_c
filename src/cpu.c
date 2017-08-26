@@ -36,10 +36,10 @@ int cpu_info()
 {
 	#if defined (__x86_64__) || defined (__i386__) || defined (__i366__)
 	cpu_init();
-    printf("Vendor :\t\t%s\n", data.vendor_str);
-    printf("Model :\t\t\t%s\n", data.brand_str);
-    printf("Physical cores :\t%d\n", data.num_cores);
-	printf("Codename :\t\t%s\n", data.cpu_codename);
+	fprintf(stdout, "Vendor :\t\t%s\n", data.vendor_str);
+	fprintf(stdout, "Model :\t\t\t%s\n", data.brand_str);
+	fprintf(stdout, "Physical cores :\t%d\n", data.num_cores);
+	fprintf(stdout, "Codename :\t\t%s\n", data.cpu_codename);
 	#endif
 	return 0;
 }

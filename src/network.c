@@ -272,7 +272,6 @@ int print_gateway()
     {
         fprintf(stdout, "\nGateway : %s\n", gateway);
     }
-    //printGateway();
     return 0;
 }
 #endif
