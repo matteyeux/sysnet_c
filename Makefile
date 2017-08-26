@@ -76,7 +76,7 @@ tarball : clean
 # make CROSS_COMPILE=arm-linux-gnueabihf- package
 package: $(TARGET)
 	@echo "Packing..."
-	mkdir release
+	mkdir -p release
 	mkdir -p deb/usr/local/bin/ deb/DEBIAN
 	cp $(TARGET) deb/usr/local/bin
 	cp resources/control deb/DEBIAN
