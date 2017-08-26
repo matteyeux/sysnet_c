@@ -4,7 +4,7 @@ arch = $(shell arch)
 TARGET = sysnet
 INSTALL_DIR ?= /usr/local/bin/
 SRC = src
-VERSION = 1.1.2
+VERSION = 1.2.0
 DEBUG ?=
 DEBUGYESNO ?=
 DBG ?=
@@ -76,8 +76,9 @@ tarball : clean
 # make CROSS_COMPILE=arm-linux-gnueabihf- package
 package: $(TARGET)
 	@echo "Packing..."
+	mkdir release
 	mkdir -p deb/usr/local/bin/ deb/DEBIAN
 	cp $(TARGET) deb/usr/local/bin
 	cp resources/control deb/DEBIAN
-	dpkg-deb --build deb $(TARGET)_$(VERSION)_$(arch).deb
+	dpkg-deb --build deb release/$(TARGET)_$(VERSION)_$(arch).deb
 	@echo "done"
