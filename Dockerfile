@@ -1,7 +1,7 @@
 # Build Docker container for nmon's local test
 # docker build -t matteyeux/sysnet_test .
 # docker run -it matteyeux/sysnet_test bash
-FROM ubuntu:16.04
+FROM ubuntu:17.04
 
 MAINTAINER matteyeux <mathieu.hautebas@gmail.com>
 # update
