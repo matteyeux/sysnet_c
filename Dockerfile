@@ -11,7 +11,7 @@ RUN apt-get update && echo "hi"
 RUN apt-get -y install libtool autoconf build-essential git tar autotools-dev
 
 # copy nmon. tip : it automatically unarchive nmon
-ADD sysnet.1.1.2.tar.gz sysnet
+ADD sysnet.1.2.0.tar.gz sysnet
 
 RUN git clone https://github.com/anrieff/libcpuid.git 
 
