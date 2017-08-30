@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 				disk_info("/");
 				fprintf(stdout, "\n=== Network ===\n");
 				hostname();
-				network_info();
+				network_info(NULL);
 				#ifdef linux
 					print_gateway();
 				#endif
