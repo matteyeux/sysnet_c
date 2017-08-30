@@ -34,14 +34,14 @@ void usage(int argc, char *argv[])
 	char *name = NULL;
 	name = strrchr(argv[0], '/');
 	fprintf(stdout, "Usage : %s [OPTIONS]\n",(name ? name + 1: argv[0]));
-	fprintf(stdout, " -s, --system\tsystem information\n");
-	fprintf(stdout, " -n, --network\tnetwork information\n");
+	fprintf(stdout, " -s, --system\t\t\tsystem information\n");
+	fprintf(stdout, " -n, --network <interface>\tnetwork information\n");
 	#if defined (__x86_64__) || defined (__i386__) || defined (__i366__)
-	fprintf(stdout, " -c, --cpu\tcpu information\n");
+	fprintf(stdout, " -c, --cpu\t\t\tcpu information\n");
 	#endif
-	fprintf(stdout, " -d, --disk\tdisk information\n");
-	fprintf(stdout, " -a, --all\tall information\n");
-	fprintf(stdout, " -v, --version\tversion\n");
+	fprintf(stdout, " -d, --disk\t\t\tdisk information\n");
+	fprintf(stdout, " -a, --all\t\t\tall information\n");
+	fprintf(stdout, " -v, --version\t\t\tversion\n");
 	#ifdef DEBUG
 		printf("DEBUG: ON\n");
 	#endif
@@ -96,7 +96,12 @@ int main(int argc, char *argv[])
 
 			case 'n' :
 				hostname();
-				network_info();
+				if (argv[optind])
+				{
+					network_info(argv[optind]);
+				} else {
+					network_info(NULL);
+				}
 				#ifdef linux
 				print_gateway();
 				#endif

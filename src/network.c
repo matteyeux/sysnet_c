@@ -53,7 +53,7 @@ int get_broadcast(char *host_ip, char *netmask)
     return 0;
 }   
 
-int network_info()
+int network_info(char *interface)
 {
     struct ifaddrs *ifaddr, *ifa; 
     struct sockaddr *netmask;
@@ -83,7 +83,11 @@ int network_info()
                 exit(EXIT_FAILURE);
             }
 
-            fprintf(stdout, "%s\n\taddress: %s\n", ifa->ifa_name,ip_address);
+
+            if (interface == NULL)
+            {
+                fprintf(stdout, "%s\n\taddress: %s\n", ifa->ifa_name,ip_address);
+            }
         }
 
         else if (family == AF_INET6) {
@@ -94,8 +98,15 @@ int network_info()
                 fprintf(stderr, "getnameinfo() failed: %s\n", gai_strerror(s));
                 exit(EXIT_FAILURE);
             }
-
-            fprintf(stdout, "IPv6 %s\n\taddress: %s\n", ifa->ifa_name,ip_address);
+            if (interface != NULL)
+            {
+                if (!strcmp(interface, ifa->ifa_name))
+                {
+                    fprintf(stdout, "IPv6 %s\n\taddress: %s\n", ifa->ifa_name,ip_address);
+                }
+            } else {
+                fprintf(stdout, "IPv6 %s\n\taddress: %s\n", ifa->ifa_name,ip_address);
+            }
         }
         if(family == AF_INET && netmask != NULL)
         {   
@@ -107,9 +118,16 @@ int network_info()
                 suffix = suffix >> 1;
                 i++;
             }
-            fprintf(stdout, "\tnetmask: %s\t\tsuffix : %d\n", mask, i);
-            if (strcmp(ifa->ifa_name, "lo")!=0)
+
+            if (interface != NULL && !strcmp(interface, ifa->ifa_name))
             {
+                fprintf(stdout, "IPv4 %s\n\taddress: %s\n", ifa->ifa_name,ip_address);
+                fprintf(stdout, "\tnetmask: %s\t\tsuffix : %d\n", mask, i);
+                get_broadcast(ip_address, mask);
+            }
+            if (interface == NULL)
+            {
+                fprintf(stdout, "\tnetmask: %s\t\tsuffix : %d\n", mask, i);
                 get_broadcast(ip_address, mask);
             }
         }
