@@ -35,7 +35,7 @@ Total RAM : 	3.86 GB
 ```
 
 ### Network
-
+With no argument here is the default output
 ```
 hostname: pwn
 lo
@@ -51,6 +51,25 @@ IPv6 eth0
 	address: fe80::20c:29ff:feb0:ddf5%eth0
 
 Gateway : 192.168.181.2
+```
+If you want to list all interfaces which are up, run `sysnet -n list`
+```bash
+IPv4 lo
+IPv4 enp1s0
+IPv4 docker0
+IPv6 lo
+IPv6 enp1s0
+IPv6 docker0
+```
+Then to print info about only one interface run `sysnet -n [interface]`. Eg : 
+```
+$ sysnet -n docker0
+IPv4 docker0
+        address: 172.17.0.1
+        netmask: 255.255.0.0            suffix : 16
+        broadcast: 172.17.255.255
+IPv6 docker0
+        address: fe80::42:aeff:fad6:9db%docker0
 ```
 
 ### Disk 
@@ -90,15 +109,16 @@ The TODO list is [here](https://github.com/matteyeux/sysnet/projects/1)
 
 ### Installation 
 
-Since v1.1 sysnet for Intel CPUs needs [libcpuid](https://github.com/matteyeux/libcpuid) to be built. I wrote a script to install `libcpuid`. <br>
+Since v1.1 sysnet for _some_ CPUs needs [libcpuid](https://github.com/matteyeux/libcpuid) to be built. I wrote a script to install `libcpuid`. <br>
 Run `./scripts/libcpuid-install.sh`. <br>
 This script works for Linux & macOS (you may have [brew](https://brew.sh) installed) <br>
 Make sure you have GCC/clang installed
 
-NO NEED FOR ARM ARCHITECTURE
+Once libcpuid is installed run : 
+- `make` to build sysnet 
+- `sudo make install` to install sysnet. <br>
 
-Once libcpuid is installed run `make` to compile & `sudo make install` to install sysnet. <br>
-By default, the install directory is `/usr/bin/`, you can change it by modifying `INSTALL_DIR` variable in the [Makefile](https://github.com/matteyeux/sysnet/blob/master/Makefile#L4) <br>
+By default, the install directory is `/usr/local/bin/`. You can change it by modifying `INSTALL_DIR` variable in the [Makefile](https://github.com/matteyeux/sysnet/blob/master/Makefile#L4) <br>
 You can also cross-compile for any platform. You'd have to set `CROSS_COMPILE` with the correct toolchain. <br>
 e.g : `make CROSS_COMPILE=arm-linux-gnueabihf-` <br>
 
