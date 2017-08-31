@@ -70,6 +70,19 @@ int network_info(char *interface)
         if (ifa->ifa_addr == NULL)
         continue;
         
+        if  (interface != NULL && !strcmp(interface, "list")){
+			for (ifa = ifaddr, n = 0; ifa != NULL; ifa = ifa->ifa_next, n++) {
+				if (ifa->ifa_addr == NULL)
+					continue;
+				if (ifa->ifa_addr->sa_family == AF_INET){
+					printf("IPv4 %s\n", ifa->ifa_name);
+				} else if (ifa->ifa_addr->sa_family == AF_INET6){
+					printf("IPv6 %s\n", ifa->ifa_name);
+				}else {}
+			}
+			break;
+		}
+
         family = ifa->ifa_addr->sa_family;
         netmask = ifa->ifa_netmask;
 
