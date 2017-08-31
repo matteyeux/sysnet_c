@@ -35,7 +35,7 @@ void usage(int argc, char *argv[])
 	name = strrchr(argv[0], '/');
 	fprintf(stdout, "Usage : %s [OPTIONS]\n",(name ? name + 1: argv[0]));
 	fprintf(stdout, " -s, --system\t\t\tsystem information\n");
-	fprintf(stdout, " -n, --network <interface>\tnetwork information\n");
+	fprintf(stdout, " -n, --network <list|interface>\tnetwork information\n");
 	#if defined (__x86_64__) || defined (__i386__) || defined (__i366__)
 	fprintf(stdout, " -c, --cpu\t\t\tcpu information\n");
 	#endif
