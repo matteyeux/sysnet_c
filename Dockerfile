@@ -20,5 +20,7 @@ RUN cd libcpuid && libtoolize && autoreconf --install && ./configure && make ins
 RUN make -C sysnet/sysnet DEBUG=1 && make -C sysnet/sysnet install
 
 RUN echo "=== TESTS === " 
-RUN sysnet -n && sysnet -s && sysnet -c && sysnet -d && sysnet -a 
+RUN sysnet -n && sysnet -s && sysnet -c && sysnet -d && sysnet -a
+RUN sysnet -n list
+RUN sysnet -n eth0
 RUN sysnet -v 
