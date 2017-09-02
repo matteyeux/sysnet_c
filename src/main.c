@@ -9,7 +9,6 @@
 #include <include/cpu.h>
 
 /*Easier to understand*/
-#define macosx	__APPLE__ && __MACH__
 
 #ifdef DEBUG
 	#define VERSION "1.2.1-DEBUG"
