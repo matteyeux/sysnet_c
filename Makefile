@@ -4,7 +4,7 @@ arch = $(shell arch)
 TARGET = sysnet
 INSTALL_DIR ?= /usr/local/bin/
 SRC = src
-VERSION = 1.2.1
+VERSION = $(shell cat resources/control| grep Version | cut -d:  -f 2)
 DEBUG ?=
 DEBUGYESNO ?=
 DBG ?=
@@ -64,7 +64,8 @@ clean :
 	rm -rf src/*.o deb $(TARGET)*
 
 clean_all : clean
-	rm -rf deb *.deb $(TARGET)_$(VERSION)_$(arch).deb 
+	rm -rf deb *.deb $(TARGET)_$(VERSION)_$(arch).deb \
+		   release
 
 install : $(TARGET)
 	install -v $(TARGET) $(INSTALL_DIR)
