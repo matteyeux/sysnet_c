@@ -23,6 +23,7 @@ static struct option longopts[] = {
 	{ "network", 	no_argument,	NULL, 'n'},
 	{ "disk", 		required_argument,	NULL, 'd'},
 	{ "cpu", 		no_argument, 	NULL, 'c'},
+	{ "file", 		required_argument, NULL, 'f'},
 	{ "version", 	no_argument, 	NULL, 'v'},
 	{ "help", 		no_argument, 	NULL, 'h'},
 	{ NULL, 0, NULL, 0 }
@@ -39,6 +40,7 @@ void usage(int argc, char *argv[])
 	fprintf(stdout, " -c, --cpu\t\t\tcpu information\n");
 	#endif
 	fprintf(stdout, " -d, --disk\t\t\tdisk information\n");
+	fprintf(stdout, " -f, --file <file>\t\tfile information\n");
 	fprintf(stdout, " -a, --all\t\t\tall information\n");
 	fprintf(stdout, " -v, --version\t\t\tversion\n");
 	#ifdef DEBUG
@@ -56,7 +58,7 @@ int main(int argc, char *argv[])
 		usage(argc, argv);
 		return 0;
 	}
-	while((opt = getopt_long(argc, (char* const *)argv, "asnchvd", longopts, &optindex)) != -1)
+	while((opt = getopt_long(argc, (char* const *)argv, "asnchvdf", longopts, &optindex)) != -1)
 	{
 		switch (opt)
 		{
@@ -116,7 +118,12 @@ int main(int argc, char *argv[])
 			case 'c':
 				cpu_info();
 				break;
-
+			case 'f' :
+				if (!argv[optind])
+				{
+					argv[optind] = ".";
+				}
+				fileinfo(argv[optind]);
 			case 'v' :
 				fprintf(stdout, "%s, version %s\nCompiled on %s\nCopyright 2016-2017 - Mathieu Hautebas\n", TOOLNAME, VERSION, __DATE__);
 				break;

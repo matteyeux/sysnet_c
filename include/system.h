@@ -16,3 +16,4 @@ int disk_info(const char *partition);
 int diskstat(int argc, char *argv[]);
 int raminfo();
 void print_ram();
+int fileinfo(char *path2file);
