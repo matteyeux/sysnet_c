@@ -8,7 +8,6 @@ struct utsname buf;
 struct sysinfo sys_info;
 #endif
 
-int version();
 int typeOS();
 int infosys();
 int username();
