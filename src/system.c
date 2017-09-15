@@ -84,10 +84,10 @@ int disk_info(const char *partition)
 int fileinfo(char *path2file)
 {
     struct stat sb;
-
-   	if (stat(path2file, &sb) == -1) {
-        perror("stat");
-        exit(EXIT_FAILURE);
+	int get_stat = stat(path2file, &sb);
+	if (get_stat == -1) {
+		perror("stat");
+		return get_stat;
     }
 
    	printf("File type:                ");
@@ -118,5 +118,5 @@ int fileinfo(char *path2file)
 	printf("Last file access:         %s", ctime(&sb.st_atime));
 	printf("Last file modification:   %s", ctime(&sb.st_mtime));
 
-	exit(EXIT_SUCCESS);
+	return 0;
 }
