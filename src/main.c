@@ -11,9 +11,9 @@
 /*Easier to understand*/
 
 #ifdef DEBUG
-	#define VERSION "1.2.1-DEBUG"
+	#define VERSION "1.2.2-DEBUG"
 #else 
-	#define VERSION "1.2.1"
+	#define VERSION "1.2.2"
 #endif
 #define TOOLNAME "Sysnet"
 
@@ -124,6 +124,7 @@ int main(int argc, char *argv[])
 					argv[optind] = ".";
 				}
 				fileinfo(argv[optind]);
+				break;
 			case 'v' :
 				fprintf(stdout, "%s, version %s\nCompiled on %s\nCopyright 2016-2017 - Mathieu Hautebas\n", TOOLNAME, VERSION, __DATE__);
 				break;
