@@ -11,12 +11,13 @@ RUN apt-get update && echo "hi"
 RUN apt-get -y install libtool autoconf build-essential git tar autotools-dev
 
 # copy nmon. tip : it automatically unarchive nmon
-ADD sysnet.1.2.0.tar.gz sysnet
 
 RUN git clone https://github.com/anrieff/libcpuid.git 
 
 RUN cd libcpuid && libtoolize && autoreconf --install && ./configure && make install && ldconfig
 
+# copy sysnet. tip : it automatically unarchive sysnet
+ADD sysnet.*.tar.gz sysnet
 RUN make -C sysnet/sysnet DEBUG=1 && make -C sysnet/sysnet install
 
 RUN echo "=== TESTS === " 
