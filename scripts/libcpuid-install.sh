@@ -23,21 +23,15 @@ function build_libcpuid(){
 
 function check4brew(){
 	if [[ ! $(which brew) ]]; then
-		echo "Brew is not installed, please install brew"
-		echo "http://brew.sh"
+		echo -e "\033[31m[e] Brew is not installed, please install brew\033[0m"
+		echo -e "\033[31mhttps://brew.sh\033[0m"
 		exit 1
 	fi
 }
 
 function build4linux (){
-
-	if [[ ! $(which libtoolize) ]]; then
-		sudo apt-get install libtool
-	fi
-
-	if [[ ! $(which autoreconf) ]]; then
-		sudo apt-get install autotools-dev
-	fi
+	echo -e "\033[1;32m[i] installing depends...\033[0m"
+	sudo apt-get install -qq -y m4 autoconf libtool autotools-dev
 	build_libcpuid
 	sudo ldconfig
 }
