@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <time.h>
 #include <sys/utsname.h>
 #include <sys/statvfs.h>
 #include <unistd.h>
@@ -77,12 +80,6 @@ int disk_info(const char *partition)
 	return 0;
 }
 
-
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 int fileinfo(char *path2file)
 {
