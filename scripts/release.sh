@@ -10,11 +10,20 @@
 ######################################################################
 # Language :
 #               bash
-# Version : 1.0
-cc=( "" "arm-linux-gnueabihf-" "aarch64-linux-gnu-")
+# Version : 0.2
 
-for i in "${cc[@]}"
+version=`cat resources/control | grep Version | cut -d:  -f 2`
+hashfile="release/hash_$version.txt"
+compiler=( "" "arm-linux-gnueabihf-" "aarch64-linux-gnu-")
+
+
+for i in "${compiler[@]}"
 do
 	make clean
 	make CROSS_COMPILE=$i package
 done
+
+if [[ -e $hashfile ]]; then
+	rm -rf $hashfile
+fi
+shasum -a 512 release/* >>  $hashfile
