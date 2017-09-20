@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
 
 			default:
 				usage(argc, argv);
-				return -1;
+				return 0;
 		}
 	}
 	return 0;
