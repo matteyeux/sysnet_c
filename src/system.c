@@ -42,7 +42,7 @@ int infosys()
 	if(sysinfo(&sys_info) != 0)
 		perror("sysinfo");
 	fprintf(stdout, "n° of processes : \t%d\n", sys_info.procs);
-	fprintf(stdout, "swap : %ld\n", sys_info.totalswap);
+	fprintf(stdout, "swap : \t\t\t%.2lf GB\n", convert2gb(0, sys_info.totalswap));
 	#endif
 	fprintf(stdout, "shell : \t\t%s\n",getenv("SHELL"));
 	return 0;
