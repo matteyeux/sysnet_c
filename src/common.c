@@ -3,8 +3,9 @@
 #include <math.h>
 
 
-double convert2gb(unsigned long int total, unsigned long int val){ //function to convert to giga bytes
-	double newval;
+// function to convert to giga bytes.
+double convert2gb(unsigned long int total, unsigned long int val){
+	double newval = 0;
 	if (total == 0)
 	{
 		newval = val/pow(2,30);
