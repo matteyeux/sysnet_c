@@ -52,12 +52,18 @@ int main(int argc, char *argv[])
 {	
 	int opt;
 	int optindex=0;
-
+	int all = 0;
+	int system = 0;
+	int network = 0;
+	int disk = 0;
+	int cpu = 0;
+	int file = 0;
 	if (argc < 2)
 	{	
 		usage(argc, argv);
 		return 0;
 	}
+	int test = 0;
 	while((opt = getopt_long(argc, (char* const *)argv, "asnchvdf", longopts, &optindex)) != -1)
 	{
 		switch (opt)
@@ -65,65 +71,23 @@ int main(int argc, char *argv[])
 			case 'h' :
 				usage(argc, argv);
 				return 0;
-
 			case 'a' :
-				fprintf(stdout, "=== System ===\n");
-				username();
-				infosys();
-				#ifdef linux
-				raminfo();
-				#endif
-				fprintf(stdout, "\n=== Disk ===\n");
-				disk_info("/");
-				fprintf(stdout, "\n=== Network ===\n");
-				hostname();
-				network_info(NULL);
-				#ifdef linux
-					print_gateway();
-				#endif
-				#if defined (__x86_64__) || defined (__i386__) || defined (__i366__)
-				fprintf(stdout, "\n=== CPU ===\n");
-				cpu_info();
-				#endif
+				all = 1;
 				break;
-
 			case 's' : 
-				username();
-				infosys();
-				#ifdef linux
-				raminfo();
-				#endif 
+				system = 1;
 				break;
-
 			case 'n' :
-				hostname();
-				if (argv[optind])
-				{
-					network_info(argv[optind]);
-				} else {
-					network_info(NULL);
-				}
-				#ifdef linux
-				print_gateway();
-				#endif
+				network = 1;
 				break;
-
 			case 'd' :
-				if (!argv[optind])
-				{	
-					argv[optind] = "/";
-				}
-				disk_info(argv[optind]);
+				disk = 1;
 				break;
 			case 'c':
-				cpu_info();
+				cpu = 1;
 				break;
 			case 'f' :
-				if (!argv[optind])
-				{
-					argv[optind] = ".";
-				}
-				fileinfo(argv[optind]);
+				file = 1;
 				break;
 			case 'v' :
 				fprintf(stdout, "%s, version %s\nCompiled on %s\nCopyright 2016-2017 - Mathieu Hautebas\n", TOOLNAME, VERSION, __DATE__);
@@ -131,8 +95,74 @@ int main(int argc, char *argv[])
 
 			default:
 				usage(argc, argv);
-				return 0;
+				return -1;
 		}
+	}
+
+	if (all){
+		fprintf(stdout, "=== System ===\n");
+		username();
+		infosys();
+		#ifdef linux
+		raminfo();
+		#endif
+		fprintf(stdout, "\n=== Disk ===\n");
+		disk_info("/");
+		fprintf(stdout, "\n=== Network ===\n");
+		hostname();
+		network_info(NULL);
+		#ifdef linux
+			print_gateway();
+		#endif
+		#if defined (__x86_64__) || defined (__i386__) || defined (__i366__)
+		fprintf(stdout, "\n=== CPU ===\n");
+		cpu_info();
+		#endif
+	}
+
+	if (system){
+		username();
+		infosys();
+		#ifdef linux
+		raminfo();
+		#endif
+	}
+
+	if (network)
+	{
+		hostname();
+		if (argv[optind])
+		{
+			network_info(argv[optind]);
+		} else {
+			network_info(NULL);
+		}
+		#ifdef linux
+		print_gateway();
+		#endif
+	}
+
+	if (disk)
+	{
+		if (!argv[optind])
+		{
+			argv[optind] = "/";
+		}
+		disk_info(argv[optind]);
+	}
+
+	if (cpu)
+	{
+		cpu_info();
+	}
+
+	if (file)
+	{
+		if (!argv[optind])
+		{
+			argv[optind] = ".";
+		}
+		fileinfo(argv[optind]);
 	}
 	return 0;
 }
