@@ -46,6 +46,7 @@ OBJECTS = src/main.o \
 		  src/cpu.o \
 		  src/common.o
 
+.PHONY : all test clean clean_all install tarball package
 all : $(TARGET)
 
 $(TARGET) : $(OBJECTS)
