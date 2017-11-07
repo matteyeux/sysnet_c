@@ -22,6 +22,7 @@ struct route_info {
 int hostname();
 int get_broadcast(char *host_ip, char *netmask);
 int network_info(char *interface);
+int find_wifi(char* iw_interface);
 #ifdef linux
 int readNlSock(int sockFd, char *bufPtr, int seqNum, int pId);
 void printRoute(struct route_info *rtInfo);

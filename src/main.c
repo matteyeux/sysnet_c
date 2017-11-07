@@ -3,6 +3,8 @@
 #include <string.h>
 #include <getopt.h>
 #include <assert.h>
+#include <unistd.h>
+#include <sys/types.h>
 
 #include <include/system.h>
 #include <include/network.h>
@@ -20,7 +22,8 @@
 static struct option longopts[] = {
 	{ "all", 		no_argument,	NULL, 'a'},
 	{ "system",		no_argument,	NULL, 's'},
-	{ "network", 	no_argument,	NULL, 'n'},
+	{ "network",	no_argument,	NULL, 'n'},
+	{ "wireless",	required_argument, NULL, 'w'},
 	{ "disk", 		required_argument,	NULL, 'd'},
 	{ "cpu", 		no_argument, 	NULL, 'c'},
 	{ "file", 		required_argument, NULL, 'f'},
@@ -36,6 +39,9 @@ void usage(int argc, char *argv[])
 	fprintf(stdout, "Usage : %s [OPTIONS]\n",(name ? name + 1: argv[0]));
 	fprintf(stdout, " -s, --system\t\t\tsystem information\n");
 	fprintf(stdout, " -n, --network <list|interface>\tnetwork information\n");
+	#ifdef linux
+	fprintf(stdout, " -w --wireless <wireless interface>\tfind wifi network\n");
+	#endif
 	#if defined (__x86_64__) || defined (__i386__) || defined (__i366__)
 	fprintf(stdout, " -c, --cpu\t\t\tcpu information\n");
 	#endif
@@ -55,6 +61,7 @@ int main(int argc, char *argv[])
 	int all = 0;
 	int system = 0;
 	int network = 0;
+	int wireless = 0;
 	int disk = 0;
 	int cpu = 0;
 	int file = 0;
@@ -64,7 +71,7 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 	int test = 0;
-	while((opt = getopt_long(argc, (char* const *)argv, "asnchvdf", longopts, &optindex)) != -1)
+	while((opt = getopt_long(argc, (char* const *)argv, "asnchvdfw", longopts, &optindex)) != -1)
 	{
 		switch (opt)
 		{
@@ -79,6 +86,9 @@ int main(int argc, char *argv[])
 				break;
 			case 'n' :
 				network = 1;
+				break;
+			case 'w' :
+				wireless = 1;
 				break;
 			case 'd' :
 				disk = 1;
@@ -140,6 +150,19 @@ int main(int argc, char *argv[])
 		#ifdef linux
 		print_gateway();
 		#endif
+	}
+
+	if (wireless)
+	{
+		if (argv[optind] == NULL) {
+			printf("wireless interface is missing\n");
+			return -1;
+		}
+
+		if (getuid() != 0){
+			fprintf(stderr, "[ERROR] you need higher privileges\n");
+		}
+		find_wifi(argv[optind]);
 	}
 
 	if (disk)

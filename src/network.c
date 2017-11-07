@@ -15,6 +15,7 @@
 #include <sys/types.h>
 #include <errno.h>
 #ifdef linux
+#include <iwlib.h>
 #include <linux/if_link.h>
 #include <linux/netlink.h>
 #include <linux/rtnetlink.h>
@@ -305,4 +306,34 @@ int print_gateway()
     }
     return 0;
 }
-#endif
+
+int find_wifi(char* iw_interface){
+	wireless_scan_head head;
+	wireless_scan *result;
+	iwrange range;
+	int sock, i = 0;
+
+	// open iw_socket
+	sock = iw_sockets_open();
+
+	// get metadata to use for scan */
+	if (iw_get_range_info(sock, iw_interface, &range) < 0) {
+		fprintf(stderr, "ERROR : %s\n", strerror(errno));
+		return -1;
+	}
+
+	// scan
+	if (iw_scan(sock, iw_interface, range.we_version_compiled, &head) < 0) {
+		fprintf(stderr, "ERROR : %s\n", strerror(errno));
+		return -1;
+	}
+
+	result = head.result;
+	while (NULL != result) {
+		printf("%s\n", result->b.essid);
+		result = result->next; i++;
+	}
+	printf("found %d wifi networks\n", i);
+	return 0;
+}
+#endif /* linux */
