@@ -40,7 +40,7 @@ void usage(int argc, char *argv[])
 	fprintf(stdout, " -s, --system\t\t\tsystem information\n");
 	fprintf(stdout, " -n, --network <list|interface>\tnetwork information\n");
 	#ifdef linux
-	fprintf(stdout, " -w --wireless <wireless interface>\tfind wifi network\n");
+	fprintf(stdout, " -w, --wireless <interface>\tfind wireless network\n");
 	#endif
 	#if defined (__x86_64__) || defined (__i386__) || defined (__i366__)
 	fprintf(stdout, " -c, --cpu\t\t\tcpu information\n");
@@ -151,7 +151,7 @@ int main(int argc, char *argv[])
 		print_gateway();
 		#endif
 	}
-
+	#ifdef linux
 	if (wireless)
 	{
 		if (argv[optind] == NULL) {
@@ -164,6 +164,7 @@ int main(int argc, char *argv[])
 		}
 		find_wifi(argv[optind]);
 	}
+	#endif /* linux */
 
 	if (disk)
 	{

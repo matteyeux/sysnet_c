@@ -8,10 +8,10 @@ VERSION = $(shell cat resources/control| grep Version | cut -d:  -f 2)
 DEBUG ?=
 DEBUGYESNO ?=
 DBG ?=
-
+LDFLAGS ?=
 
 ifeq ($(shell uname), Linux)
-	LDFLAGS = -liw # iwlib
+	LDFLAGS += -liw # iwlib
 endif
 
 ifeq ($(shell arch),x86_64) 
@@ -37,11 +37,11 @@ endef
 # Set cross toolchain, eg : CROSS_COMPILE=arm-linux-gnueabihf-
 CROSS_COMPILE ?=
 ifeq ($(CROSS_COMPILE),arm-linux-gnueabihf-) 
-	LDFLAGS =
+	LDFLAGS += -liw
 	arch = $(shell echo "$(CROSS_COMPILE)" | cut -f 1 -d -)
 endif
 ifeq ($(CROSS_COMPILE),aarch64-linux-gnu-) 
-	LDFLAGS =
+	LDFLAGS += -liw
 	arch = $(shell echo "$(CROSS_COMPILE)" | cut -f 1 -d -)
 endif
 
