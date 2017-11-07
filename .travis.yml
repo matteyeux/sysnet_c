@@ -17,6 +17,9 @@ matrix:
       - os: osx
         compiler: gcc
         
+before_script : 
+  - sudo apt-get install libiw-dev
+
 script : 
   - ./scripts/travis-tests.sh 
 
