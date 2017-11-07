@@ -13,9 +13,9 @@
 /*Easier to understand*/
 
 #ifdef DEBUG
-	#define VERSION "1.2.2-DEBUG"
+	#define VERSION "1.3.0-DEBUG"
 #else 
-	#define VERSION "1.2.2"
+	#define VERSION "1.3.0"
 #endif
 #define TOOLNAME "Sysnet"
 

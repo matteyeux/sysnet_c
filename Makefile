@@ -9,14 +9,19 @@ DEBUG ?=
 DEBUGYESNO ?=
 DBG ?=
 
+
+ifeq ($(shell uname), Linux)
+	LDFLAGS = -liw # iwlib
+endif
+
 ifeq ($(shell arch),x86_64) 
-	LDFLAGS = -lcpuid
+	LDFLAGS += -lcpuid
 endif
 ifeq ($(shell arch),i686)
-	LDFLAGS = -lcpuid
+	LDFLAGS += -lcpuid
 endif
 ifeq ($(shell arch),i386)
-	LDFLAGS = -lcpuid
+	LDFLAGS += -lcpuid
 endif
 
 ifeq ($(DEBUG), 1)

@@ -8,7 +8,7 @@ MAINTAINER matteyeux <mathieu.hautebas@gmail.com>
 RUN apt-get update && echo "hi"
 
 # install all depends
-RUN apt-get -y install libtool autoconf build-essential git tar autotools-dev
+RUN apt-get -y install libtool autoconf build-essential git tar autotools-dev libiw-dev
 
 # copy nmon. tip : it automatically unarchive nmon
 

@@ -109,13 +109,14 @@ The TODO list is [here](https://github.com/matteyeux/sysnet/projects/1)
 
 ### Installation 
 
-Since v1.1 sysnet for _some_ CPUs needs [libcpuid](https://github.com/matteyeux/libcpuid) to be built. I wrote a script to install `libcpuid`. <br>
+Since v1.1 sysnet for _some_ CPUs needs [libcpuid](https://github.com/anrieff/libcpuid) to be built. I wrote a script to install `libcpuid`. <br>
 Run `./scripts/libcpuid-install.sh`. <br>
 This script works for Linux & macOS (you may have [brew](https://brew.sh) installed) <br>
-Make sure you have GCC/clang installed
+Make sure you have GCC/clang installed <br>
 
-Once libcpuid is installed run : 
-- `make` to build sysnet 
+You will also have to install `libiw-dev` : `sudo apt-get install libiw-dev`
+Once libcpuid and libiw-dev are installed run :
+- `make` to build sysnet
 - `sudo make install` to install sysnet. <br>
 
 By default, the install directory is `/usr/local/bin/`. You can change it by modifying `INSTALL_DIR` variable in the [Makefile](https://github.com/matteyeux/sysnet/blob/master/Makefile#L4) <br>
