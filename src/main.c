@@ -161,6 +161,7 @@ int main(int argc, char *argv[])
 
 		if (getuid() != 0){
 			fprintf(stderr, "[ERROR] you need higher privileges\n");
+			return -1;
 		}
 		find_wifi(argv[optind]);
 	}
