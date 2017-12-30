@@ -1,7 +1,5 @@
 /*System functions*/
-#include <sys/utsname.h>
-#include <sys/statvfs.h>
-struct utsname buf;
+
 
 #ifdef linux
 #include <sys/sysinfo.h>

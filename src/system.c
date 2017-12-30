@@ -16,6 +16,7 @@
 #endif
 
 #include <include/system.h>
+#include <include/disk.h>
 #include <include/common.h>
 
 int username()
@@ -60,26 +61,6 @@ int raminfo()
     return 0;
 }
 #endif
-int disk_info(const char *partition)
-{
-	struct statvfs buf;
-	if (!statvfs(partition, &buf)) {
-		unsigned long blksize, blocks, freeblks, disk_size, used, free;
-		blksize = buf.f_bsize;
-		blocks = buf.f_blocks;
-		freeblks = buf.f_bfree;
-
-		disk_size = blocks * blksize;
-		free = freeblks * blksize;
-		used = disk_size - free;
-		fprintf(stdout, "Disk usage of %s : \t%.2lf GB\nFree space in %s : \t%.2lf GB\nTotal in %s: \t\t%.2lf GB\n", partition, used/pow(2,30), partition, free/pow(2,30), partition, disk_size/pow(2,30));
-    } 
-    else {
-		fprintf(stderr, "Couldn't get file system statistics\n");
-	}
-	return 0;
-}
-
 
 int fileinfo(char *path2file)
 {
@@ -93,30 +74,30 @@ int fileinfo(char *path2file)
    	printf("File type:                ");
 
    	switch (sb.st_mode & S_IFMT) {
-    	case S_IFBLK:  printf("block device\n");            break;
-    	case S_IFCHR:  printf("character device\n");        break;
-    	case S_IFDIR:  printf("directory\n");               break;
-    	case S_IFIFO:  printf("FIFO/pipe\n");               break;
-    	case S_IFLNK:  printf("symlink\n");                 break;
-    	case S_IFREG:  printf("regular file\n");            break;
-    	case S_IFSOCK: printf("socket\n");                  break;
-    	default:       printf("unknown?\n");                break;
+		case S_IFBLK:  fprintf(stdout, "block device\n");            break;
+		case S_IFCHR:  fprintf(stdout, "character device\n");        break;
+		case S_IFDIR:  fprintf(stdout, "directory\n");               break;
+		case S_IFIFO:  fprintf(stdout, "FIFO/pipe\n");               break;
+		case S_IFLNK:  fprintf(stdout, "symlink\n");                 break;
+		case S_IFREG:  fprintf(stdout, "regular file\n");            break;
+		case S_IFSOCK: fprintf(stdout, "socket\n");                  break;
+		default:       fprintf(stdout, "unknown?\n");                break;
     }
 
-	printf("I-node number:            %ld\n", (long) sb.st_ino);
+	fprintf(stdout, "I-node number:            %ld\n", (long) sb.st_ino);
 
-	printf("Mode:                     %lo (octal)\n", (unsigned long) sb.st_mode);
+	fprintf(stdout, "Mode:                     %lo (octal)\n", (unsigned long) sb.st_mode);
 
-	printf("Link count:               %ld\n", (long) sb.st_nlink);
-	printf("Ownership:                UID=%ld   GID=%ld\n", (long) sb.st_uid, (long) sb.st_gid);
+	fprintf(stdout, "Link count:               %ld\n", (long) sb.st_nlink);
+	fprintf(stdout, "Ownership:                UID=%ld   GID=%ld\n", (long) sb.st_uid, (long) sb.st_gid);
 
-	printf("Preferred I/O block size: %ld bytes\n", (long) sb.st_blksize);
-	printf("File size:                %lld bytes\n", (long long) sb.st_size);
-	printf("Blocks allocated:         %lld\n", (long long) sb.st_blocks);
+	fprintf(stdout, "Preferred I/O block size: %ld bytes\n", (long) sb.st_blksize);
+	fprintf(stdout, "File size:                %lld bytes\n", (long long) sb.st_size);
+	fprintf(stdout, "Blocks allocated:         %lld\n", (long long) sb.st_blocks);
 
-	printf("Last status change:       %s", ctime(&sb.st_ctime));
-	printf("Last file access:         %s", ctime(&sb.st_atime));
-	printf("Last file modification:   %s", ctime(&sb.st_mtime));
+	fprintf(stdout, "Last status change:       %s", ctime(&sb.st_ctime));
+	fprintf(stdout, "Last file access:         %s", ctime(&sb.st_atime));
+	fprintf(stdout, "Last file modification:   %s", ctime(&sb.st_mtime));
 
 	return 0;
 }
