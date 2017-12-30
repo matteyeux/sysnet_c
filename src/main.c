@@ -13,9 +13,9 @@
 /*Easier to understand*/
 
 #ifdef DEBUG
-	#define VERSION "1.3.0-DEBUG"
+	#define VERSION "1.3.1-DEBUG"
 #else 
-	#define VERSION "1.3.0"
+	#define VERSION "1.3.1"
 #endif
 #define TOOLNAME "Sysnet"
 
@@ -63,14 +63,15 @@ int main(int argc, char *argv[])
 	int network = 0;
 	int wireless = 0;
 	int disk = 0;
-	int cpu = 0;
 	int file = 0;
+	#ifdef LIBCUPID
+	int cpu = 0;
+	#endif
 	if (argc < 2)
 	{	
 		usage(argc, argv);
 		return 0;
 	}
-	int test = 0;
 	while((opt = getopt_long(argc, (char* const *)argv, "asnchvdfw", longopts, &optindex)) != -1)
 	{
 		switch (opt)
@@ -93,9 +94,11 @@ int main(int argc, char *argv[])
 			case 'd' :
 				disk = 1;
 				break;
+			#ifdef LIBCUPID
 			case 'c':
 				cpu = 1;
 				break;
+			#endif
 			case 'f' :
 				file = 1;
 				break;
@@ -124,7 +127,7 @@ int main(int argc, char *argv[])
 		#ifdef linux
 			print_gateway();
 		#endif
-		#if defined (__x86_64__) || defined (__i386__) || defined (__i366__)
+		#ifdef LIBCUPID
 		fprintf(stdout, "\n=== CPU ===\n");
 		cpu_info();
 		#endif
@@ -176,10 +179,12 @@ int main(int argc, char *argv[])
 		disk_info(argv[optind]);
 	}
 
+	#ifdef LIBCUPID
 	if (cpu)
 	{
 		cpu_info();
 	}
+	#endif
 
 	if (file)
 	{
