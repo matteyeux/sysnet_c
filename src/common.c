@@ -14,3 +14,8 @@ double convert2gb(unsigned long int total, unsigned long int val){
 	}
 	return newval;
 }
+
+
+int convert2percent (unsigned long val, unsigned long total) { //cuz lazy - don't judge me
+	return (val * 100) / total;
+}
