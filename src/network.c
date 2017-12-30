@@ -260,8 +260,8 @@ void parseRoutes(struct nlmsghdr *nlHdr, struct route_info *rtInfo)
 int print_gateway()
 {
     struct nlmsghdr *nlMsg;
-    struct rtmsg *rtMsg;
     struct route_info *rtInfo;
+
     char msgBuf[BUFSIZE];
 
     int sock, len, msgSeq = 0;
@@ -272,7 +272,6 @@ int print_gateway()
     memset(msgBuf, 0, BUFSIZE);
 
     nlMsg = (struct nlmsghdr *) msgBuf;
-    rtMsg = (struct rtmsg *) NLMSG_DATA(nlMsg);
 
     nlMsg->nlmsg_len = NLMSG_LENGTH(sizeof(struct rtmsg)); 
     nlMsg->nlmsg_type = RTM_GETROUTE;   
