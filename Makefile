@@ -49,7 +49,10 @@ OBJECTS = src/main.o \
 		  src/system.o \
 		  src/network.o \
 		  src/cpu.o \
+		  src/disk.o \
 		  src/common.o
+
+SOURCES = $(OBJECTS:.o=.c)
 
 .PHONY : all test clean clean_all install tarball package
 all : $(TARGET)
@@ -61,7 +64,7 @@ $(TARGET) : $(OBJECTS)
 
 $(SRC)/%.o : $(SRC)/%.c
 	@echo " CC	$<"
-	@$(CROSS_COMPILE)$(CC) -c $(DBG) -I. $< -o $@
+	@$(CROSS_COMPILE)$(CC) -c -Wall $(DBG) -I. $< -o $@
 
 test : tarball
 	docker build -t matteyeux/sysnet_test .
@@ -73,11 +76,13 @@ clean_all : clean
 	rm -rf deb *.deb $(TARGET)_$(VERSION)_$(arch).deb \
 		   release
 
+ios :
+	xcrun -sdk iphoneos clang --sysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk $(SOURCES) -arch arm64 -I. -o sysnet
 install : $(TARGET)
 	install -v $(TARGET) $(INSTALL_DIR)
 
 tarball : clean
-	tar zcvf ../$(TARGET).$(VERSION).tar.gz ../$(TARGET)
+	tar zcvf $(TARGET).$(VERSION).tar.gz ../$(TARGET)
 	mv ../$(TARGET).$(VERSION).tar.gz .
 
 # make CROSS_COMPILE=arm-linux-gnueabihf- package
