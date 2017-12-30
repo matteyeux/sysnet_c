@@ -1,14 +1,14 @@
 #include <stdio.h>
-#if defined (__x86_64__) || defined (__i386__) || defined (__i366__)
-#include <libcpuid/libcpuid.h>
 #include <include/cpu.h>
 
+#ifdef LIBCUPID
+#include <libcpuid/libcpuid.h>
 struct cpu_raw_data_t raw; 
 struct cpu_id_t data;    
 #endif
 int cpu_init()
 {
-	#if defined (__x86_64__) || defined (__i386__) || defined (__i366__)
+	#ifdef LIBCUPID
 	if (!cpuid_present()) {
         fprintf(stderr, "Sorry, your CPU doesn't support CPUID!\n");
         return -1;
@@ -34,7 +34,7 @@ int cpu_init()
 
 int cpu_info()
 {
-	#if defined (__x86_64__) || defined (__i386__) || defined (__i366__)
+	#ifdef LIBCUPID
 	cpu_init();
 	fprintf(stdout, "Vendor :\t\t%s\n", data.vendor_str);
 	fprintf(stdout, "Model :\t\t\t%s\n", data.brand_str);
