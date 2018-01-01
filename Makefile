@@ -15,12 +15,15 @@ ifeq ($(shell uname), Linux)
 endif
 
 ifeq ($(shell arch),x86_64) 
+	LIBCPUID = -DLIBCPUID
 	LDFLAGS += -lcpuid
 endif
 ifeq ($(shell arch),i686)
+	LIBCPUID = -DLIBCPUID
 	LDFLAGS += -lcpuid
 endif
 ifeq ($(shell arch),i386)
+	LIBPUID = -DLIBCPUID
 	LDFLAGS += -lcpuid
 endif
 
@@ -37,11 +40,13 @@ endef
 # Set cross toolchain, eg : CROSS_COMPILE=arm-linux-gnueabihf-
 CROSS_COMPILE ?=
 ifeq ($(CROSS_COMPILE),arm-linux-gnueabihf-) 
-	LDFLAGS += -liw
+	LIBCPUID =
+	LDFLAGS = -liw -lm
 	arch = $(shell echo "$(CROSS_COMPILE)" | cut -f 1 -d -)
 endif
 ifeq ($(CROSS_COMPILE),aarch64-linux-gnu-) 
-	LDFLAGS += -liw
+	LIBCPUID =
+	LDFLAGS = -liw -lm
 	arch = $(shell echo "$(CROSS_COMPILE)" | cut -f 1 -d -)
 endif
 
