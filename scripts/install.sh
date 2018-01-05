@@ -52,7 +52,7 @@ function check4brew(){
 depends
 install_libcpuid
 if [[ -d .git ]]; then
-	make				# I assume you are in sysnet dir
+	sudo make install		# I assume you are in sysnet dir
 else
-	make -C $(dirname $(pwd))
+	make -C $(dirname $(pwd)) install
 fi
