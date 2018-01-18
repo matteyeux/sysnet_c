@@ -56,3 +56,5 @@ if [[ -d .git ]]; then
 else
 	make -C $(dirname $(pwd)) install
 fi
+
+sudo ldconfig
