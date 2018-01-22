@@ -1,7 +1,7 @@
 #!/bin/bash
 #######################################################################
 #
-#  Script.......: libcpuid-install.sh
+#  Script.......: install.sh
 #  Creator......: matteyeux
 #  Description..: Script to install sysnet
 #  Type.........: Public
