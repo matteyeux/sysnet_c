@@ -103,23 +103,29 @@ Here is a demo of sysnet running on GNU/Linux Debian 8.5.
 - iOS 6 - 10
 - Windows Subsystem for Linux (WSL)
 
-### TODO
-
-The TODO list is [here](https://github.com/matteyeux/sysnet/projects/1)
-
 ### Installation 
 
-Since v1.1 sysnet for _some_ CPUs needs [libcpuid](https://github.com/anrieff/libcpuid) to be built. I wrote a script to install `libcpuid`. <br>
-Run `./scripts/libcpuid-install.sh`. <br>
-This script works for Linux & macOS (you may have [brew](https://brew.sh) installed) <br>
-Make sure you have GCC/clang installed <br>
+#### Automatic
+The easiest way to install sysnet is to run `install.sh` :
+```
+$ ./scripts/install.sh
+```
+This script only works on MacOS or Debian and derived distros. Feel free to add support for your favorite Linux distrubution.
+
+#### Manual 
+Since v1.1 sysnet for _some_ CPUs needs [libcpuid](https://github.com/anrieff/libcpuid).<br>
+
+1) Clone and install libcpuid
+2) If you are on Linux, install `libiw-dev`
+3) Run `make` to build sysnet
+4) Run `sudo make install` to install sysnet
 
 You will also have to install `libiw-dev` : `sudo apt-get install libiw-dev`
 Once libcpuid and libiw-dev are installed run :
 - `make` to build sysnet
 - `sudo make install` to install sysnet. <br>
 
-By default, the install directory is `/usr/local/bin/`. You can change it by modifying `INSTALL_DIR` variable in the [Makefile](https://github.com/matteyeux/sysnet/blob/master/Makefile#L4) <br>
+By default, the install directory is `/usr/local/bin/`. You can change it by modifying `INSTALL_DIR` variable in the [Makefile](https://github.com/matteyeux/sysnet/blob/master/Makefile#L5) <br>
 You can also cross-compile for any platform. You'd have to set `CROSS_COMPILE` with the correct toolchain. <br>
 e.g : `make CROSS_COMPILE=arm-linux-gnueabihf-` <br>
 
