@@ -28,10 +28,10 @@ int disk_info(const char *partition)
 		fprintf(stdout, "Disk usage of %s : \t%.2lu GB\t",	partition, used_gb);
 		fprintf(stdout, "%d%%\n", 							convert2percent(used_gb, disk_size_gb));
 		fprintf(stdout, "Free space in %s : \t%.2lu GB\t",	partition, free_gb);
-		fprintf(stdout, "%d%%\n", 							convert2percent(free_gb, disk_size_gb)); 
+		fprintf(stdout, "%d%%\n", 							convert2percent(free_gb, disk_size_gb));
 		fprintf(stdout, "Total in %s: \t\t%.2lu GB\n",		partition, disk_size_gb);
-    } 	
-    else {
+	}
+	else {
 		fprintf(stderr, "Couldn't get file system statistics\n");
 	}
 	return 0;
