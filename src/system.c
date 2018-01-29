@@ -21,15 +21,15 @@
 
 int username()
 {
-    char *user=getenv("USER");
+	char *user=getenv("USER");
 	int uid = getuid();
-    if(user==NULL)
-    { 
-    	return EXIT_FAILURE;
-    }
-    fprintf(stdout, "User : \t\t\t%s\n",user);
-    fprintf(stdout, "UID : \t\t\t%d\n", uid);
-	return 0;   
+	if(user==NULL)
+	{
+		return EXIT_FAILURE;
+	}
+	fprintf(stdout, "User : \t\t\t%s\n",user);
+	fprintf(stdout, "UID : \t\t\t%d\n", uid);
+	return 0;
 }
 
 int infosys() 
@@ -51,53 +51,53 @@ int infosys()
 #ifdef linux
 int raminfo() 
 {
-    struct sysinfo si;
-    if (sysinfo(&si) == 0) {
-    	double used_ram =  convert2gb(si.totalram, si.freeram);
-    	fprintf(stdout, "\nUsed RAM : \t\t%.2lf GB\n", used_ram);
+	struct sysinfo si;
+	if (sysinfo(&si) == 0) {
+		double used_ram =  convert2gb(si.totalram, si.freeram);
+		fprintf(stdout, "\nUsed RAM : \t\t%.2lf GB\n", used_ram);
 		fprintf(stdout, "Free RAM : \t\t%.2lf GB\n", convert2gb(0, si.freeram));
 		fprintf(stdout, "Total RAM : \t\t%.2lf GB\n", convert2gb(0, si.totalram));
-    }
-    return 0;
+	}
+	return 0;
 }
 #endif
 
 int fileinfo(char *path2file)
 {
-    struct stat sb;
+	struct stat sb;
 	int get_stat = stat(path2file, &sb);
 	if (get_stat == -1) {
 		perror("stat");
 		return get_stat;
-    }
+	}
 
-   	printf("File type:                ");
+	fprintf(stdout, "File type:				  ");
 
-   	switch (sb.st_mode & S_IFMT) {
-		case S_IFBLK:  fprintf(stdout, "block device\n");            break;
-		case S_IFCHR:  fprintf(stdout, "character device\n");        break;
-		case S_IFDIR:  fprintf(stdout, "directory\n");               break;
-		case S_IFIFO:  fprintf(stdout, "FIFO/pipe\n");               break;
-		case S_IFLNK:  fprintf(stdout, "symlink\n");                 break;
-		case S_IFREG:  fprintf(stdout, "regular file\n");            break;
-		case S_IFSOCK: fprintf(stdout, "socket\n");                  break;
-		default:       fprintf(stdout, "unknown?\n");                break;
-    }
+	switch (sb.st_mode & S_IFMT) {
+		case S_IFBLK:	fprintf(stdout, "block device\n");			break;
+		case S_IFCHR:	fprintf(stdout, "character device\n");		break;
+		case S_IFDIR:	fprintf(stdout, "directory\n");				break;
+		case S_IFIFO:	fprintf(stdout, "FIFO/pipe\n");				break;
+		case S_IFLNK:	fprintf(stdout, "symlink\n");				break;
+		case S_IFREG:	fprintf(stdout, "regular file\n");			break;
+		case S_IFSOCK:	fprintf(stdout, "socket\n");				break;
+		default:		fprintf(stdout, "unknown?\n");				break;
+	}
 
-	fprintf(stdout, "I-node number:            %ld\n", (long) sb.st_ino);
+	fprintf(stdout, "I-node number:				%ld\n", (long) sb.st_ino);
 
-	fprintf(stdout, "Mode:                     %lo (octal)\n", (unsigned long) sb.st_mode);
+	fprintf(stdout, "Mode:						%lo (octal)\n", (unsigned long) sb.st_mode);
 
-	fprintf(stdout, "Link count:               %ld\n", (long) sb.st_nlink);
-	fprintf(stdout, "Ownership:                UID=%ld   GID=%ld\n", (long) sb.st_uid, (long) sb.st_gid);
+	fprintf(stdout, "Link count:				%ld\n", (long) sb.st_nlink);
+	fprintf(stdout, "Ownership:					UID=%ld   GID=%ld\n", (long) sb.st_uid, (long) sb.st_gid);
 
-	fprintf(stdout, "Preferred I/O block size: %ld bytes\n", (long) sb.st_blksize);
-	fprintf(stdout, "File size:                %lld bytes\n", (long long) sb.st_size);
-	fprintf(stdout, "Blocks allocated:         %lld\n", (long long) sb.st_blocks);
+	fprintf(stdout, "Preferred I/O block size:	%ld bytes\n", (long) sb.st_blksize);
+	fprintf(stdout, "File size:					%lld bytes\n", (long long) sb.st_size);
+	fprintf(stdout, "Blocks allocated:			%lld\n", (long long) sb.st_blocks);
 
-	fprintf(stdout, "Last status change:       %s", ctime(&sb.st_ctime));
-	fprintf(stdout, "Last file access:         %s", ctime(&sb.st_atime));
-	fprintf(stdout, "Last file modification:   %s", ctime(&sb.st_mtime));
+	fprintf(stdout, "Last status change:		%s", ctime(&sb.st_ctime));
+	fprintf(stdout, "Last file access:			%s", ctime(&sb.st_atime));
+	fprintf(stdout, "Last file modification:	%s", ctime(&sb.st_mtime));
 
 	return 0;
 }

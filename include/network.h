@@ -13,16 +13,16 @@
 char gateway[255];
 
 struct route_info {
-    struct in_addr dstAddr;
-    struct in_addr srcAddr;
-    struct in_addr gateWay;
-    char ifName[IF_NAMESIZE];
+	struct in_addr dstAddr;
+	struct in_addr srcAddr;
+	struct in_addr gateWay;
+	char ifName[IF_NAMESIZE];
 };
 
 int hostname();
 int get_broadcast(char *host_ip, char *netmask);
 int get_mac(char *interface);
-int network_info(char *interface);
+int network_info(char *interface, int iface);
 int find_wifi(char* iw_interface);
 #ifdef linux
 int readNlSock(int sockFd, char *bufPtr, int seqNum, int pId);

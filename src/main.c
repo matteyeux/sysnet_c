@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
 		disk_info("/");
 		fprintf(stdout, "\n=== Network ===\n");
 		hostname();
-		network_info(NULL);
+		network_info(NULL, 0);
 		#ifdef linux
 			print_gateway();
 		#endif
@@ -146,9 +146,9 @@ int main(int argc, char *argv[])
 		hostname();
 		if (argv[optind])
 		{
-			network_info(argv[optind]);
+			network_info(argv[optind], 0);
 		} else {
-			network_info(NULL);
+			network_info(NULL, 0);
 		}
 		#ifdef linux
 		print_gateway();

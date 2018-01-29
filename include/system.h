@@ -1,6 +1,4 @@
 /*System functions*/
-
-
 #ifdef linux
 #include <sys/sysinfo.h>
 struct sysinfo sys_info;
