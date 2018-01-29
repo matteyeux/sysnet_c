@@ -10,22 +10,22 @@ int cpu_init()
 {
 	#ifdef LIBCUPID
 	if (!cpuid_present()) {
-        fprintf(stderr, "Sorry, your CPU doesn't support CPUID!\n");
-        return -1;
-    }
+		fprintf(stderr, "Sorry, your CPU doesn't support CPUID!\n");
+		return -1;
+	}
 
 
-    if (cpuid_get_raw_data(&raw) < 0) { 
-        fprintf(stderr, "Sorry, cannot get the CPUID raw data.\n");
-        fprintf(stderr, "Error: %s\n", cpuid_error());
-        return -2;
-    }
+	if (cpuid_get_raw_data(&raw) < 0) {
+		fprintf(stderr, "Sorry, cannot get the CPUID raw data.\n");
+		fprintf(stderr, "Error: %s\n", cpuid_error());
+		return -2;
+	}
 
-    if (cpu_identify(&raw, &data) < 0) {    
-        fprintf(stderr, "Sorrry, CPU identification failed.\n");
-        fprintf(stderr, "Error: %s\n", cpuid_error());
-        return -3;
-    }
+	if (cpu_identify(&raw, &data) < 0) {
+		fprintf(stderr, "Sorrry, CPU identification failed.\n");
+		fprintf(stderr, "Error: %s\n", cpuid_error());
+		return -3;
+	}
 	#else
 	fprintf(stderr, "[ERROR] CPU not supported\n");
 	#endif
