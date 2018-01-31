@@ -54,7 +54,7 @@ install_libcpuid
 if [[ -d .git ]]; then
 	sudo make install		# I assume you are in sysnet dir
 else
-	make -C $(dirname $(pwd)) install
+	sudo make -C $(dirname $(pwd)) install
 fi
 
 sudo ldconfig
