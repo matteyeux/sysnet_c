@@ -38,16 +38,15 @@ define print_success
 endef
 
 # Set cross toolchain, eg : CROSS_COMPILE=arm-linux-gnueabihf-
-CROSS_COMPILE ?=
-ifeq ($(CROSS_COMPILE),arm-linux-gnueabihf-) 
+ifeq ($(CC),arm-linux-gnueabihf-gcc)
 	LIBCPUID =
 	LDFLAGS = -liw -lm
-	arch = $(shell echo "$(CROSS_COMPILE)" | cut -f 1 -d -)
+	arch = $(shell echo "$(CC)" | cut -f 1 -d -)
 endif
-ifeq ($(CROSS_COMPILE),aarch64-linux-gnu-) 
+ifeq ($(CC),aarch64-linux-gnu-gcc)
 	LIBCPUID =
 	LDFLAGS = -liw -lm
-	arch = $(shell echo "$(CROSS_COMPILE)" | cut -f 1 -d -)
+	arch = $(shell echo "$(CC)" | cut -f 1 -d -)
 endif
 
 OBJECTS = src/main.o \
@@ -64,12 +63,12 @@ all : $(TARGET)
 
 $(TARGET) : $(OBJECTS)
 	@echo " LD	$(TARGET)"
-	@$(CROSS_COMPILE)$(CC) $(OBJECTS) $(LDFLAGS) -o $(TARGET)
+	@$(CC) $(OBJECTS) $(LDFLAGS) -o $(TARGET)
 	$(call print_success, "Successfully built $(TARGET) version $(VERSION)$(DEBUG-V) on $(uname_s) for $(arch) $(DEBUGYESNO)")
 
 $(SRC)/%.o : $(SRC)/%.c
 	@echo " CC	$<"
-	@$(CROSS_COMPILE)$(CC) -c -Wall $(DBG) -I. $< -o $@
+	@$(CC) -c -Wall $(DBG) -I. $< -o $@
 
 test : tarball
 	docker build -t matteyeux/sysnet_test .
