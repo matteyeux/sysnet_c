@@ -127,7 +127,7 @@ Once libcpuid and libiw-dev are installed run :
 
 By default, the install directory is `/usr/local/bin/`. You can change it by modifying `INSTALL_DIR` variable in the [Makefile](https://github.com/matteyeux/sysnet/blob/master/Makefile#L5) <br>
 You can also cross-compile for any platform. You'd have to set `CROSS_COMPILE` with the correct toolchain. <br>
-e.g : `make CROSS_COMPILE=arm-linux-gnueabihf-` <br>
+e.g : `make CROSS_COMPILE=arm-linux-gnueabihf-gcc` <br>
 
 You can also install pre-built packages for few Linux architectures : check [releases page](https://github.com/matteyeux/sysnet/releases)
 
