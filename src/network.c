@@ -54,31 +54,37 @@ int get_broadcast(char *host_ip, char *netmask)
 	return 0;
 }
 
-// TODO : macOS support
-int get_mac(char *interface){
+/*
+*	function to get mac address of a network interface
+*	type is char * it returns a pointer:
+*	mac
+*	TODO : implement in sysnet - then call from sysnet git module
+*/
+
+char *get_mac_addr(char *interface){
 	#ifdef linux
 	int fd;
 	struct ifreq ifr;
-	unsigned char *mac = NULL;
+	char *mac;
+	mac = malloc(sizeof(char) *30);
+	unsigned char *mac_digit = NULL;
 
 	memset(&ifr, 0, sizeof(ifr));
-
 	fd = socket(AF_INET, SOCK_DGRAM, 0);
 
 	ifr.ifr_addr.sa_family = AF_INET;
 	strncpy(ifr.ifr_name , interface , IFNAMSIZ-1);
-
 	if (0 == ioctl(fd, SIOCGIFHWADDR, &ifr)) {
-		mac = (unsigned char *)ifr.ifr_hwaddr.sa_data;
+		mac_digit = (unsigned char *)ifr.ifr_hwaddr.sa_data;
 		// if interface == "lo"; it prints -> mac : 00:00:00:00:00:00
 		if (strcmp(interface, "lo") != 0)
-			fprintf(stdout, "\tmac : %.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n" , mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+			sprintf(mac, "%.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n" , mac_digit[0], mac_digit[1], mac_digit[2], mac_digit[3], mac_digit[4], mac_digit[5]);
 	}
-	close(fd);
-	#endif /* linux */
-	return 0;
+	return (char *)mac;
+	#else
+	return NULL;
+	#endif
 }
-
 int network_info(char *interface, int ipv)
 {
 	struct ifaddrs *ifaddr, *ifa;
@@ -86,7 +92,7 @@ int network_info(char *interface, int ipv)
 	int family, s, n, i, suffix;
 	char ip_address[NI_MAXHOST];
 	char mask[NI_MAXHOST];
-
+	char *mac_addr;
 	if (getifaddrs(&ifaddr) == -1) {
 		perror("getifaddrs");
 		exit(EXIT_FAILURE);
@@ -111,7 +117,7 @@ int network_info(char *interface, int ipv)
 
 		family = ifa->ifa_addr->sa_family;
 		netmask = ifa->ifa_netmask;
-
+		mac_addr = get_mac_addr(ifa->ifa_name);
 		//printf("%s\n", ifa->ifa_name); //usefull for debug
 		if (family == AF_INET && (ipv == 0 || ipv == 4)) {
 			s = getnameinfo(ifa->ifa_addr,
@@ -140,11 +146,17 @@ int network_info(char *interface, int ipv)
 				if (!strcmp(interface, ifa->ifa_name))
 				{
 					fprintf(stdout, "IPv6 %s\n\taddress: %s\n", ifa->ifa_name,ip_address);
-					get_mac(ifa->ifa_name);
+					if (strcmp(ifa->ifa_name, "lo") != 0)
+					{
+						fprintf(stdout, "\tmac : %s\n", mac_addr);
+					}
 				}
 			} else {
 				fprintf(stdout, "IPv6 %s\n\taddress: %s\n", ifa->ifa_name,ip_address);
-				get_mac(ifa->ifa_name);
+				if (strcmp(ifa->ifa_name, "lo") != 0)
+				{
+					fprintf(stdout, "\tmac : %s\n", mac_addr);
+				}
 			}
 		}
 		if(family == AF_INET && netmask != NULL)
@@ -163,13 +175,19 @@ int network_info(char *interface, int ipv)
 				fprintf(stdout, "IPv4 %s\n\taddress: %s\n", ifa->ifa_name,ip_address);
 				fprintf(stdout, "\tnetmask: %s\t\tsuffix : %d\n", mask, i);
 				get_broadcast(ip_address, mask);
-				get_mac(ifa->ifa_name);
+				if (strcmp(ifa->ifa_name, "lo") != 0)
+				{
+					fprintf(stdout, "\tmac : %s\n", mac_addr);
+				}
 			}
 			if (interface == NULL)
 			{
 				fprintf(stdout, "\tnetmask: %s\t\tsuffix : %d\n", mask, i);
 				get_broadcast(ip_address, mask);
-				get_mac(ifa->ifa_name);
+				if (strcmp(ifa->ifa_name, "lo") != 0)
+				{
+					fprintf(stdout, "\tmac : %s\n", mac_addr);
+				}
 			}
 		}
 	}

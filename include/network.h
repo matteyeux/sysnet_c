@@ -21,7 +21,7 @@ struct route_info {
 
 int hostname();
 int get_broadcast(char *host_ip, char *netmask);
-int get_mac(char *interface);
+char *get_mac_addr(char *interface);
 int network_info(char *interface, int iface);
 int find_wifi(char* iw_interface);
 #ifdef linux
