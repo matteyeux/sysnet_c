@@ -78,7 +78,7 @@ char *get_mac_addr(char *interface){
 		mac_digit = (unsigned char *)ifr.ifr_hwaddr.sa_data;
 		// if interface == "lo"; it prints -> mac : 00:00:00:00:00:00
 		if (strcmp(interface, "lo") != 0)
-			sprintf(mac, "%.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n" , mac_digit[0], mac_digit[1], mac_digit[2], mac_digit[3], mac_digit[4], mac_digit[5]);
+			sprintf(mac, "%.2X:%.2X:%.2X:%.2X:%.2X:%.2X" , mac_digit[0], mac_digit[1], mac_digit[2], mac_digit[3], mac_digit[4], mac_digit[5]);
 	}
 	return (char *)mac;
 	#else
