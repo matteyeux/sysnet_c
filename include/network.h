@@ -30,4 +30,5 @@ void printRoute(struct route_info *rtInfo);
 void printGateway();
 void parseRoutes(struct nlmsghdr *nlHdr, struct route_info *rtInfo);
 int print_gateway();
+int check_wireless(const char* ifname, char* protocol);
 #endif

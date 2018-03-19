@@ -92,6 +92,8 @@ int network_info(char *interface, int ipv)
 	int family, s, n, i, suffix;
 	char ip_address[NI_MAXHOST];
 	char mask[NI_MAXHOST];
+	char protocol[IFNAMSIZ] = {0};
+
 	char *mac_addr;
 	if (getifaddrs(&ifaddr) == -1) {
 		perror("getifaddrs");
@@ -190,6 +192,12 @@ int network_info(char *interface, int ipv)
 				}
 			}
 		}
+		#ifdef linux
+		if (check_wireless(ifa->ifa_name, protocol))
+		{
+			printf("%s\n\tprotocol : %s\n", ifa->ifa_name, protocol);
+		}
+		#endif /* linux */
 	}
 	freeifaddrs(ifaddr);
 	return 0;
@@ -378,6 +386,28 @@ int find_wifi(char* iw_interface){
 		result = result->next; i++;
 	}
 	printf("found %d wifi networks\n", i);
+	return 0;
+}
+
+int check_wireless(const char* ifname, char* protocol) {
+	int sock = -1;
+	struct iwreq pwrq;
+
+	memset(&pwrq, 0, sizeof(pwrq));
+	strncpy(pwrq.ifr_name, ifname, IFNAMSIZ);
+
+	if ((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+		perror("socket");
+		return 0;
+	}
+
+	if (ioctl(sock, SIOCGIWNAME, &pwrq) != -1) {
+		if (protocol) strncpy(protocol, pwrq.u.name, IFNAMSIZ);
+			close(sock);
+		return 1;
+	}
+
+	close(sock);
 	return 0;
 }
 #endif /* linux */
