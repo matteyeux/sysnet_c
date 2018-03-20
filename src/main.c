@@ -64,6 +64,7 @@ int main(int argc, char *argv[])
 	int wireless = 0;
 	int disk = 0;
 	int file = 0;
+	char *wireless_iface;
 	#ifdef LIBCUPID
 	int cpu = 0;
 	#endif
@@ -157,16 +158,17 @@ int main(int argc, char *argv[])
 	#ifdef linux
 	if (wireless)
 	{
-		if (argv[optind] == NULL) {
-			printf("wireless interface is missing\n");
-			return -1;
+		if (argv[optind] != NULL) {
+			wireless_iface = argv[optind];
+		} else {
+			wireless_iface = get_wireless_iface();
 		}
 
 		if (getuid() != 0){
 			fprintf(stderr, "[ERROR] you need higher privileges\n");
 			return -1;
 		}
-		find_wifi(argv[optind]);
+		find_wifi(wireless_iface);
 	}
 	#endif /* linux */
 

@@ -121,9 +121,9 @@ int network_info(char *interface, int ipv)
 		netmask = ifa->ifa_netmask;
 		mac_addr = get_mac_addr(ifa->ifa_name);
 		//printf("%s\n", ifa->ifa_name); //usefull for debug
+
 		if (family == AF_INET && (ipv == 0 || ipv == 4)) {
-			s = getnameinfo(ifa->ifa_addr,
-			(family == AF_INET) ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6), ip_address, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
+			s = getnameinfo(ifa->ifa_addr, (family == AF_INET) ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6), ip_address, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
 
 			if (s != 0) {
 				fprintf(stderr, "getnameinfo() failed: %s\n", gai_strerror(s));
@@ -133,9 +133,7 @@ int network_info(char *interface, int ipv)
 			{
 				fprintf(stdout, "%s\n\taddress: %s\n", ifa->ifa_name,ip_address);
 			}
-		}
-
-		else if (family == AF_INET6 && (ipv == 0 || ipv == 6)) {
+		} else if (family == AF_INET6 && (ipv == 0 || ipv == 6)) {
 			s = getnameinfo(ifa->ifa_addr,
 			(family == AF_INET) ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6), ip_address, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
 
@@ -161,6 +159,7 @@ int network_info(char *interface, int ipv)
 				}
 			}
 		}
+
 		if(family == AF_INET && netmask != NULL)
 		{
 			i = 0;
@@ -171,7 +170,6 @@ int network_info(char *interface, int ipv)
 				suffix = suffix >> 1;
 				i++;
 			}
-
 			if (interface != NULL && !strcmp(interface, ifa->ifa_name))
 			{
 				fprintf(stdout, "IPv4 %s\n\taddress: %s\n", ifa->ifa_name,ip_address);
@@ -192,12 +190,6 @@ int network_info(char *interface, int ipv)
 				}
 			}
 		}
-		#ifdef linux
-		if (check_wireless(ifa->ifa_name, protocol))
-		{
-			printf("%s\n\tprotocol : %s\n", ifa->ifa_name, protocol);
-		}
-		#endif /* linux */
 	}
 	freeifaddrs(ifaddr);
 	return 0;
@@ -410,4 +402,31 @@ int check_wireless(const char* ifname, char* protocol) {
 	close(sock);
 	return 0;
 }
+
+
+char *get_wireless_iface(void) {
+	struct ifaddrs *ifaddr, *ifa;
+	char *wireless_iface;
+	if (getifaddrs(&ifaddr) == -1) {
+		perror("getifaddrs");
+		return NULL;
+	}
+
+	/* walk through linked list, maintaining head pointer so we can free list later */
+	for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
+		char protocol[IFNAMSIZ]  = {0};
+
+		if (ifa->ifa_addr == NULL || ifa->ifa_addr->sa_family != AF_PACKET)
+			continue;
+
+		if (check_wireless(ifa->ifa_name, protocol)) {
+			wireless_iface = ifa->ifa_name;
+			freeifaddrs(ifaddr);
+			return (char *)wireless_iface;
+		}
+	}
+	freeifaddrs(ifaddr);
+	return NULL;
+}
+
 #endif /* linux */
