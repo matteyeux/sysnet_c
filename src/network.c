@@ -92,7 +92,6 @@ int network_info(char *interface, int ipv)
 	int family, s, n, i, suffix;
 	char ip_address[NI_MAXHOST];
 	char mask[NI_MAXHOST];
-	char protocol[IFNAMSIZ] = {0};
 
 	char *mac_addr;
 	if (getifaddrs(&ifaddr) == -1) {
