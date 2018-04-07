@@ -180,11 +180,8 @@ int main(int argc, char *argv[])
 			return -1;
 		}
 
-		if (is_iface_up(wireless_iface) != true){
-			printf("down\n");
+		if (is_iface_up(wireless_iface) != true)
 			up_iface(wireless_iface);
-			printf("now up\n");
-		}
 
 		find_wifi(wireless_iface);
 	}
