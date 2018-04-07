@@ -194,6 +194,38 @@ int network_info(char *interface, int ipv)
 	return 0;
 }
 
+bool is_iface_up(const char *interface) {
+	struct ifreq ifr;
+	int sock = socket(PF_INET6, SOCK_DGRAM, IPPROTO_IP);
+	memset(&ifr, 0, sizeof(ifr));
+	strcpy(ifr.ifr_name, interface);
+	if (ioctl(sock, SIOCGIFFLAGS, &ifr) < 0) {
+		perror("SIOCGIFFLAGS");
+	}
+	close(sock);
+	return !!(ifr.ifr_flags & IFF_UP);
+}
+
+int up_iface(const char *interface)
+{
+	int sockfd;
+	struct ifreq ifr;
+
+	sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+
+	if (sockfd < 0)
+		return -1;
+
+	memset(&ifr, 0, sizeof ifr);
+
+	strncpy(ifr.ifr_name, interface, IFNAMSIZ);
+
+	ifr.ifr_flags |= IFF_UP;
+	ioctl(sockfd, SIOCSIFFLAGS, &ifr);
+	return 0;
+}
+
+
 #ifdef linux
 int readNlSock(int sockFd, char *bufPtr, int seqNum, int pId)
 {

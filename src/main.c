@@ -64,10 +64,14 @@ int main(int argc, char *argv[])
 	int wireless = 0;
 	int disk = 0;
 	int file = 0;
+
+	#ifdef linux
 	char *wireless_iface;
+	#endif /* linux */
+
 	#ifdef LIBCUPID
 	int cpu = 0;
-	#endif
+	#endif /* LIBCPUID */
 	if (argc < 2)
 	{	
 		usage(argc, argv);
@@ -162,12 +166,26 @@ int main(int argc, char *argv[])
 			wireless_iface = argv[optind];
 		} else {
 			wireless_iface = get_wireless_iface();
+
+			if (wireless_iface == NULL)
+			{
+				fprintf(stderr, "[-] no wireless interface found\n");
+				return -2;
+			}
 		}
 
+		/* moved the check here in case you need to enable a wireless interface */
 		if (getuid() != 0){
-			fprintf(stderr, "[ERROR] you need higher privileges\n");
+			fprintf(stderr, "[-] you need higher privileges\n");
 			return -1;
 		}
+
+		if (is_iface_up(wireless_iface) != true){
+			printf("down\n");
+			up_iface(wireless_iface);
+			printf("now up\n");
+		}
+
 		find_wifi(wireless_iface);
 	}
 	#endif /* linux */

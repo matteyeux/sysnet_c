@@ -3,6 +3,7 @@
 #include <netinet/in.h>
 #include <net/if.h>
 #include <math.h>
+#include <stdbool.h>
 
 #ifdef linux
 	#include <linux/if_link.h>
@@ -24,6 +25,8 @@ int get_broadcast(char *host_ip, char *netmask);
 char *get_mac_addr(char *interface);
 int network_info(char *interface, int iface);
 int find_wifi(char* iw_interface);
+bool is_iface_up(const char *interface);
+int up_iface(const char *interface);
 #ifdef linux
 int readNlSock(int sockFd, char *bufPtr, int seqNum, int pId);
 void printRoute(struct route_info *rtInfo);
