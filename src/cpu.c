@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <include/cpu.h>
 
-#ifdef LIBCUPID
+#ifdef LIBCPUID
 #include <libcpuid/libcpuid.h>
 struct cpu_raw_data_t raw; 
 struct cpu_id_t data;    
 #endif
 int cpu_init()
 {
-	#ifdef LIBCUPID
+	#ifdef LIBCPUID
 	if (!cpuid_present()) {
 		fprintf(stderr, "Sorry, your CPU doesn't support CPUID!\n");
 		return -1;
@@ -34,7 +34,7 @@ int cpu_init()
 
 int cpu_info()
 {
-	#ifdef LIBCUPID
+	#ifdef LIBCPUID
 	cpu_init();
 	fprintf(stdout, "Vendor :\t\t%s\n", data.vendor_str);
 	fprintf(stdout, "Model :\t\t\t%s\n", data.brand_str);

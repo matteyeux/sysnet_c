@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 	char *wireless_iface;
 	#endif /* linux */
 
-	#ifdef LIBCUPID
+	#ifdef LIBCPUID
 	int cpu = 0;
 	#endif /* LIBCPUID */
 	if (argc < 2)
@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
 			case 'd' :
 				disk = 1;
 				break;
-			#ifdef LIBCUPID
+			#ifdef LIBCPUID
 			case 'c':
 				cpu = 1;
 				break;
@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
 		#ifdef linux
 			print_gateway();
 		#endif
-		#ifdef LIBCUPID
+		#ifdef LIBCPUID
 		fprintf(stdout, "\n=== CPU ===\n");
 		cpu_info();
 		#endif
@@ -196,7 +196,7 @@ int main(int argc, char *argv[])
 		disk_info(argv[optind]);
 	}
 
-	#ifdef LIBCUPID
+	#ifdef LIBCPUID
 	if (cpu)
 	{
 		cpu_info();
