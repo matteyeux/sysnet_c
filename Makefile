@@ -68,7 +68,7 @@ $(TARGET) : $(OBJECTS)
 
 $(SRC)/%.o : $(SRC)/%.c
 	@echo " CC	$<"
-	@$(CC) -c -Wall $(DBG) -I. $< -o $@
+	@$(CC) -c -Wall $(DBG) $(LIBCPUID)  -I. $< -o $@
 
 test : tarball
 	docker build -t matteyeux/sysnet_test .
@@ -82,6 +82,7 @@ clean_all : clean
 
 ios :
 	xcrun -sdk iphoneos clang --sysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk $(SOURCES) -arch arm64 -I. -o sysnet
+
 install : $(TARGET)
 	install -v $(TARGET) $(INSTALL_DIR)
 
