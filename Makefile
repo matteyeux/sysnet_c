@@ -11,7 +11,7 @@ DBG ?=
 LDFLAGS ?=
 
 ifeq ($(shell uname), Linux)
-	LDFLAGS += -liw # iwlib
+	LDFLAGS += -lm -liw # iwlib
 endif
 
 ifeq ($(shell arch),x86_64) 
