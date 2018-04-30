@@ -40,12 +40,12 @@ endef
 # Set cross toolchain, eg : CROSS_COMPILE=arm-linux-gnueabihf-
 ifeq ($(CC),arm-linux-gnueabihf-gcc)
 	LIBCPUID =
-	LDFLAGS = -liw -lm
+	LDFLAGS = -lm -liw
 	arch = $(shell echo "$(CC)" | cut -f 1 -d -)
 endif
 ifeq ($(CC),aarch64-linux-gnu-gcc)
 	LIBCPUID =
-	LDFLAGS = -liw -lm
+	LDFLAGS = -lm -liw
 	arch = $(shell echo "$(CC)" | cut -f 1 -d -)
 endif
 
