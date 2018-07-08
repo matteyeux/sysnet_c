@@ -22,13 +22,14 @@
 int username()
 {
 	char *user=getenv("USER");
-	int uid = getuid();
+	int uid = getuid(), gid = getgid();
 	if(user==NULL)
 	{
 		return EXIT_FAILURE;
 	}
 	fprintf(stdout, "User : \t\t\t%s\n",user);
 	fprintf(stdout, "UID : \t\t\t%d\n", uid);
+	fprintf(stdout, "GID : \t\t\t%d\n", gid);
 	return 0;
 }
 
