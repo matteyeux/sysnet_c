@@ -75,7 +75,6 @@ char *get_mac_addr(char *interface){
 	}
 	return (char *)mac;
 	#else
-	free(mac);
 	return NULL;
 	#endif
 }
