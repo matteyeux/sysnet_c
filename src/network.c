@@ -54,13 +54,6 @@ int get_broadcast(char *host_ip, char *netmask)
 	return 0;
 }
 
-/*
-*	function to get mac address of a network interface
-*	type is char * it returns a pointer:
-*	mac
-*	TODO : implement in sysnet - then call from sysnet git module
-*/
-
 char *get_mac_addr(char *interface){
 	#ifdef linux
 	int fd;
@@ -82,6 +75,7 @@ char *get_mac_addr(char *interface){
 	}
 	return (char *)mac;
 	#else
+	free(mac);
 	return NULL;
 	#endif
 }
@@ -119,7 +113,6 @@ int network_info(char *interface, int ipv)
 		family = ifa->ifa_addr->sa_family;
 		netmask = ifa->ifa_netmask;
 		mac_addr = get_mac_addr(ifa->ifa_name);
-		//printf("%s\n", ifa->ifa_name); //usefull for debug
 
 		if (family == AF_INET && (ipv == 0 || ipv == 4)) {
 			s = getnameinfo(ifa->ifa_addr, (family == AF_INET) ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6), ip_address, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
@@ -190,6 +183,7 @@ int network_info(char *interface, int ipv)
 			}
 		}
 	}
+	free(mac_addr);
 	freeifaddrs(ifaddr);
 	return 0;
 }
