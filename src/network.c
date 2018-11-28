@@ -182,7 +182,7 @@ int network_info(char *interface, int ipv)
 			}
 		}
 	}
-	free(mac_addr);
+
 	freeifaddrs(ifaddr);
 	return 0;
 }
