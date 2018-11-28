@@ -87,7 +87,7 @@ install : $(TARGET)
 	install -v $(TARGET) $(INSTALL_DIR)
 
 tarball : clean
-	tar zcvf $(TARGET).$(VERSION).tar.gz ../$(TARGET)
+	tar zcvf ../$(TARGET).$(VERSION).tar.gz ../$(TARGET)
 	mv ../$(TARGET).$(VERSION).tar.gz .
 
 # make CROSS_COMPILE=arm-linux-gnueabihf- package
