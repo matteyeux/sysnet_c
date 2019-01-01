@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
 				file = 1;
 				break;
 			case 'v' :
-				fprintf(stdout, "%s, version %s\nCompiled on %s\nCopyright 2016-2018 - Mathieu Hautebas\n", TOOLNAME, VERSION, __DATE__);
+				fprintf(stdout, "%s, version %s\nCompiled on %s\nCopyright 2016-2019 - Mathieu Hautebas\n", TOOLNAME, VERSION, __DATE__);
 				break;
 
 			default:
