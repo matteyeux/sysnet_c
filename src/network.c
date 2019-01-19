@@ -164,7 +164,7 @@ int network_info(char *interface, int ipv)
 			if (interface != NULL && !strcmp(interface, ifa->ifa_name))
 			{
 				fprintf(stdout, "IPv4 %s\n\taddress: %s\n", ifa->ifa_name,ip_address);
-				fprintf(stdout, "\tnetmask: %s\t\tsuffix : %d\n", mask, i);
+				fprintf(stdout, "\tnetmask: %s\t\tCIDR : %d\n", mask, i);
 				get_broadcast(ip_address, mask);
 				if (strcmp(ifa->ifa_name, "lo") != 0)
 				{
@@ -173,7 +173,7 @@ int network_info(char *interface, int ipv)
 			}
 			if (interface == NULL)
 			{
-				fprintf(stdout, "\tnetmask: %s\t\tsuffix : %d\n", mask, i);
+				fprintf(stdout, "\tnetmask: %s\t\tCIDR : %d\n", mask, i);
 				get_broadcast(ip_address, mask);
 				if (strcmp(ifa->ifa_name, "lo") != 0)
 				{
