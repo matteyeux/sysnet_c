@@ -49,16 +49,12 @@ ifeq ($(CC),aarch64-linux-gnu-gcc)
 	arch = $(shell echo "$(CC)" | cut -f 1 -d -)
 endif
 
-OBJECTS = src/main.o \
-		  src/system.o \
-		  src/network.o \
-		  src/cpu.o \
-		  src/disk.o \
-		  src/common.o
+SOURCES = $(wildcard src/*.c)
 
-SOURCES = $(OBJECTS:.o=.c)
+OBJECTS = $(SOURCES:.c=.o)
 
 .PHONY : all test clean clean_all install tarball package
+
 all : $(TARGET)
 
 $(TARGET) : $(OBJECTS)
