@@ -2,6 +2,7 @@ CC = gcc
 uname_s = $(shell uname -s)
 arch = $(shell arch)
 TARGET = sysnet
+LIB = libsysnet.a
 INSTALL_DIR ?= /usr/local/bin/
 SRC = src
 VERSION = $(shell cat resources/control| grep Version | cut -d:  -f 2)
@@ -62,6 +63,12 @@ $(TARGET) : $(OBJECTS)
 	@$(CC) $(OBJECTS) $(LDFLAGS) -o $(TARGET)
 	$(call print_success, "Successfully built $(TARGET) version $(VERSION)$(DEBUG-V) on $(uname_s) for $(arch) $(DEBUGYESNO)")
 
+$(LIB) : $(OBJECTS)
+	@echo " AR	$(LIB)"
+	@rm src/main.o
+	@ar rc $(LIB) $(OBJ)
+	@ranlib $(LIB)
+
 $(SRC)/%.o : $(SRC)/%.c
 	@echo " CC	$<"
 	@$(CC) -c -Wall $(DBG) $(LIBCPUID)  -I. $< -o $@
@@ -70,7 +77,7 @@ test : tarball
 	docker build -t matteyeux/sysnet_test .
 
 clean : 
-	rm -rf src/*.o deb $(TARGET)*
+	rm -rf src/*.o deb $(LIB) $(TARGET)*
 
 clean_all : clean
 	rm -rf deb *.deb $(TARGET)_$(VERSION)_$(arch).deb \
