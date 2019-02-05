@@ -32,7 +32,7 @@ static struct option longopts[] = {
 	{ NULL, 0, NULL, 0 }
 };
 
-void usage(int argc, char *argv[])
+void usage(char *argv[])
 {
 	char *name = NULL;
 	name = strrchr(argv[0], '/');
@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
 	#endif /* LIBCPUID */
 	if (argc < 2)
 	{	
-		usage(argc, argv);
+		usage(argv);
 		return 0;
 	}
 	while((opt = getopt_long(argc, (char* const *)argv, "asnchvdfw", longopts, &optindex)) != -1)
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
 		switch (opt)
 		{
 			case 'h' :
-				usage(argc, argv);
+				usage(argv);
 				return 0;
 			case 'a' :
 				all = 1;
@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
 				break;
 
 			default:
-				usage(argc, argv);
+				usage(argv);
 				return -1;
 		}
 	}

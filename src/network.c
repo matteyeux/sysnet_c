@@ -253,7 +253,7 @@ int readNlSock(int sockFd, char *bufPtr, int seqNum, int pId)
 		if ((nlHdr->nlmsg_flags & NLM_F_MULTI) == 0) {
 			break;
 		}
-	} while ((nlHdr->nlmsg_seq != seqNum) || (nlHdr->nlmsg_pid != pId));
+	} while ((nlHdr->nlmsg_seq != (unsigned int)seqNum) || (nlHdr->nlmsg_pid != (unsigned int)pId));
 	return msgLen;
 }
 

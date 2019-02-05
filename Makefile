@@ -71,7 +71,7 @@ $(LIB) : $(OBJECTS)
 
 $(SRC)/%.o : $(SRC)/%.c
 	@echo " CC	$<"
-	@$(CC) -c -Wall $(DBG) $(LIBCPUID)  -I. $< -o $@
+	@$(CC) -c -Wall -Wextra $(DBG) $(LIBCPUID)  -I. $< -o $@
 
 test : tarball
 	docker build -t matteyeux/sysnet_test .
