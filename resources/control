@@ -1,9 +1,9 @@
 Package:sysnet
-Version:1.3.2
+Version:1.4.0
 Section: system
 Priority: optional
 Architecture: all
 Depends: bash
 Maintainer: Mathieu Hautebas <mathieu.hautebas@gmail.com>
 Description: A tool grab system and network information.
-Homepage: http://matteyeux.me
+Homepage: https://github.com/matteyeux/sysnet

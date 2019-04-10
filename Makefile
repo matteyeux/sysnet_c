@@ -9,11 +9,8 @@ VERSION = $(shell cat resources/control| grep Version | cut -d:  -f 2)
 DEBUG ?=
 DEBUGYESNO ?=
 DBG ?=
-LDFLAGS ?=
-
-ifeq ($(shell uname), Linux)
-	LDFLAGS += -lm -liw # iwlib
-endif
+CFLAGS := -I. -Wall -Wextra
+LDFLAGS := -lm -liw
 
 ifeq ($(shell arch),x86_64) 
 	LIBCPUID = -DLIBCPUID
@@ -32,6 +29,7 @@ ifeq ($(DEBUG), 1)
 	DBG = -DDEBUG
 	DEBUGYESNO = "with DEBUG flags"
 	DEBUG-V = "-DEBUG"
+	CFLAGS += -g
 endif
 
 define print_success
@@ -44,6 +42,7 @@ ifeq ($(CC),arm-linux-gnueabihf-gcc)
 	LDFLAGS = -lm -liw
 	arch = $(shell echo "$(CC)" | cut -f 1 -d -)
 endif
+
 ifeq ($(CC),aarch64-linux-gnu-gcc)
 	LIBCPUID =
 	LDFLAGS = -lm -liw
@@ -71,7 +70,7 @@ $(LIB) : $(OBJECTS)
 
 $(SRC)/%.o : $(SRC)/%.c
 	@echo " CC	$<"
-	@$(CC) -c -Wall -Wextra $(DBG) -g $(LIBCPUID)  -I. $< -o $@
+	@$(CC) $(CFLAGS) -c $(DBG) $(LIBCPUID) $< -o $@
 
 test : tarball
 	docker build -t matteyeux/sysnet_test .
@@ -80,11 +79,7 @@ clean :
 	rm -rf src/*.o deb $(LIB) $(TARGET)*
 
 clean_all : clean
-	rm -rf deb *.deb $(TARGET)_$(VERSION)_$(arch).deb \
-		   release
-
-ios :
-	xcrun -sdk iphoneos clang --sysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk $(SOURCES) -arch arm64 -I. -o sysnet
+	rm -rf deb *.deb $(TARGET)_$(VERSION)_$(arch).deb release
 
 install : $(TARGET)
 	install -v $(TARGET) $(INSTALL_DIR)
