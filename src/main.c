@@ -13,11 +13,11 @@
 /*Easier to understand*/
 
 #ifdef DEBUG
-	#define VERSION "1.3.2-DEBUG"
+	#define VERSION "1.4.0-DEBUG"
 #else 
-	#define VERSION "1.3.2"
+	#define VERSION "1.4.0"
 #endif
-#define TOOLNAME "Sysnet"
+#define TOOLNAME "sysnet"
 
 static struct option longopts[] = {
 	{ "all", 		no_argument,	NULL, 'a'},
@@ -127,11 +127,8 @@ int main(int argc, char *argv[])
 		fprintf(stdout, "\n=== Disk ===\n");
 		disk_info("/");
 		fprintf(stdout, "\n=== Network ===\n");
-		hostname();
-		network_info(NULL, 0);
-		#ifdef linux
-			print_gateway();
-		#endif
+		print_network_info();
+		grab_gateway();
 		#ifdef LIBCPUID
 		fprintf(stdout, "\n=== CPU ===\n");
 		cpu_info();
@@ -146,36 +143,25 @@ int main(int argc, char *argv[])
 		#endif
 	}
 
-	if (network)
-	{
-		hostname();
-		if (argv[optind])
-		{
-			network_info(argv[optind], 0);
-		} else {
-			network_info(NULL, 0);
-		}
-		#ifdef linux
-		print_gateway();
-		#endif
+	if (network) {
+		print_network_info();
+		grab_gateway();
 	}
-	#ifdef linux
-	if (wireless)
-	{
+
+	if (wireless) {
 		if (argv[optind] != NULL) {
 			wireless_iface = argv[optind];
 		} else {
 			wireless_iface = get_wireless_iface();
 
-			if (wireless_iface == NULL)
-			{
+			if (wireless_iface == NULL) {
 				fprintf(stderr, "[-] no wireless interface found\n");
 				return -2;
 			}
 		}
 
 		/* moved the check here in case you need to enable a wireless interface */
-		if (getuid() != 0){
+		if (getuid() != 0) {
 			fprintf(stderr, "[-] you need higher privileges\n");
 			return -1;
 		}
@@ -185,30 +171,26 @@ int main(int argc, char *argv[])
 
 		find_wifi(wireless_iface);
 	}
-	#endif /* linux */
 
 	if (disk)
 	{
-		if (!argv[optind])
-		{
+		if (!argv[optind]) {
 			argv[optind] = "/";
 		}
+
 		disk_info(argv[optind]);
 	}
 
 	#ifdef LIBCPUID
-	if (cpu)
-	{
+	if (cpu) {
 		cpu_info();
 	}
 	#endif
 
-	if (file)
-	{
+	if (file) {
 		if (!argv[optind])
-		{
 			argv[optind] = ".";
-		}
+
 		fileinfo(argv[optind]);
 	}
 	return 0;

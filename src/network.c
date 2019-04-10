@@ -14,53 +14,62 @@
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <errno.h>
-#ifdef linux
 #include <iwlib.h>
 #include <linux/if_link.h>
 #include <linux/netlink.h>
 #include <linux/rtnetlink.h>
-#endif
 
 #include <include/network.h>
 
-
-int hostname()
+char *get_hostname(void)
 {
-	char hostname[1024];
-	hostname[1023] = '\0';
-	gethostname(hostname, 1023);
-	fprintf(stdout, "hostname: %s\n", hostname);
-	return 0;
+	char *host;
+
+	host = malloc(sizeof(char) * 256);
+
+	if (host == NULL) {
+		fprintf(stderr, "[MALLOC] unable to allocate memory\n");
+		return NULL;
+	}
+
+	host[255] = '\0';
+	gethostname(host, 256);
+	//fprintf(stdout, "hostname: %s\n", host);
+	return (char *)host;
 }
 
-int get_broadcast(char *host_ip, char *netmask)
+char *get_broadcast(char *host_ip, char *netmask)
 {
 	struct in_addr host, mask, broadcast;
 	char broadcast_address[INET_ADDRSTRLEN];
+	char *broadcast_ret;
 
 	if (inet_pton(AF_INET, host_ip, &host) == 1 && inet_pton(AF_INET, netmask, &mask) == 1)
 		broadcast.s_addr = host.s_addr | ~mask.s_addr;
 	else {
 		fprintf(stderr, "ERROR : %s\n", strerror(errno));
-		return 1;
+		return NULL;
 	}
 
-	if (inet_ntop(AF_INET, &broadcast, broadcast_address, INET_ADDRSTRLEN) != NULL)
-		fprintf(stdout, "\tbroadcast: %s\n", broadcast_address);
-	else {
-		fprintf(stderr, "ERROR : %s\n", strerror(errno));
-		return 1;
+	if (inet_ntop(AF_INET, &broadcast, broadcast_address, INET_ADDRSTRLEN) != NULL) {
+		broadcast_ret = broadcast_address;
+		return broadcast_ret;
+	} else {
+		return NULL;
 	}
-	return 0;
 }
 
 char *get_mac_addr(char *interface){
-	#ifdef linux
 	int fd;
 	struct ifreq ifr;
-	char *mac;
-	mac = malloc(sizeof(char) *30);
 	unsigned char *mac_digit = NULL;
+	char *mac;
+
+	mac = malloc(sizeof(char) *30);
+	if (mac == NULL) {
+		fprintf(stderr, "[MALLOC] unable to allocate memory\n");
+		return NULL;
+	}
 
 	memset(&ifr, 0, sizeof(ifr));
 	fd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -74,127 +83,157 @@ char *get_mac_addr(char *interface){
 			sprintf(mac, "%.2X:%.2X:%.2X:%.2X:%.2X:%.2X" , mac_digit[0], mac_digit[1], mac_digit[2], mac_digit[3], mac_digit[4], mac_digit[5]);
 	}
 	return (char *)mac;
-	#else
-	return NULL;
-	#endif
 }
-int network_info(char *interface, int ipv)
+/*
+* only work for common netmasks
+* for the moment
+*/
+int get_cidr(char *netmask)
 {
-	struct ifaddrs *ifaddr, *ifa;
+	int cidr, i = 0;
+	inet_pton(AF_INET, netmask, &cidr);
+
+	while (cidr > 0) {
+		cidr = cidr >> 1;
+		i++;
+	}
+
+	return i;
+}
+
+net_info_t *get_network_info(ifaddrs_t *ifaddr, char *interface, int ip_version)
+{
+	struct ifaddrs *ifa;
 	struct sockaddr *netmask;
-	int family, s, n, i, suffix;
+
+	struct net_info_s *network_info = NULL;
+
+	int family, s, n;
 	char ip_address[NI_MAXHOST];
 	char mask[NI_MAXHOST];
 
-	char *mac_addr;
+	// don't forget to free at some point
+	network_info = malloc(sizeof(net_info_t));
+
+	if (network_info == NULL) {
+		fprintf(stderr, "[MALLOC] unable to allocate memory\n");
+		return NULL;
+	}
+
+	network_info->mac_addr = get_mac_addr(interface);
+
+	/*
+	* Loop for a linked list which
+	* consists of ifaddrs structures
+	*/
+	for (ifa = ifaddr, n = 0; ifa != NULL; ifa = ifa->ifa_next, n++) {
+		if (ifa->ifa_addr == NULL)
+			continue;
+
+		family = ifa->ifa_addr->sa_family;
+		netmask = ifa->ifa_netmask;
+
+		if (!strcmp(ifa->ifa_name, interface)) {
+
+			if (family == AF_INET && (ip_version == 4 || ip_version == 0)) {
+				s = getnameinfo(ifa->ifa_addr, sizeof(struct sockaddr_in),
+								ip_address, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
+				if (s != 0) {
+					fprintf(stderr, "getnameinfo() failed: %s\n", gai_strerror(s));
+					exit(EXIT_FAILURE);
+				}
+
+				network_info->ip_addr = ip_address;
+			} else if (family == AF_INET6 && (ip_version == 0 || ip_version == 6)) {
+				s = getnameinfo(ifa->ifa_addr, sizeof(struct sockaddr_in6),
+								ip_address, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
+
+				if (s != 0) {
+					fprintf(stderr, "getnameinfo() failed: %s\n", gai_strerror(s));
+					exit(EXIT_FAILURE);
+				}
+
+				network_info->ip_addr = ip_address;
+			} else {}
+
+			if (family == AF_INET && netmask != NULL) {
+				s = getnameinfo(netmask, sizeof(struct sockaddr_in),
+								mask, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
+
+				network_info->netmask = mask;
+				network_info->cidr = get_cidr(mask);
+			}
+		}
+	}
+
+	return network_info;
+}
+
+void print_network_info(void)
+{
+	int n;
+	char *hostname;
+	struct ifaddrs *ifaddr, *ifa;
+	net_info_t *network;
+
+	hostname = get_hostname();
+
+	fprintf(stdout, "hostname : %s\n", hostname);
+
 	if (getifaddrs(&ifaddr) == -1) {
 		perror("getifaddrs");
 		exit(EXIT_FAILURE);
 	}
 
+
 	for (ifa = ifaddr, n = 0; ifa != NULL; ifa = ifa->ifa_next, n++) {
 		if (ifa->ifa_addr == NULL)
-		continue;
+			continue;
 
-		if  (interface != NULL && !strcmp(interface, "list")){
-			for (ifa = ifaddr, n = 0; ifa != NULL; ifa = ifa->ifa_next, n++) {
-				if (ifa->ifa_addr == NULL)
-					continue;
-				if (ifa->ifa_addr->sa_family == AF_INET){
-					printf("IPv4 %s\n", ifa->ifa_name);
-				} else if (ifa->ifa_addr->sa_family == AF_INET6){
-					printf("IPv6 %s\n", ifa->ifa_name);
-				}else {}
-			}
-			break;
+		if (ifa->ifa_addr->sa_family == AF_INET){
+			fprintf(stdout, "IPv4 %s\n", ifa->ifa_name);
+
+
+			network = get_network_info(ifaddr, ifa->ifa_name, 4);
+
+			fprintf(stdout, "\taddress : %s\n", network->ip_addr);
+			fprintf(stdout, "\tnetmask : %s\t CIDR : %d\n", network->netmask, network->cidr);
+
+			network->broadcast = get_broadcast(network->ip_addr, network->netmask);
+
+			fprintf(stdout, "\tbroadcast : %s\n", network->broadcast);
+
+		} else if (ifa->ifa_addr->sa_family == AF_INET6) {
+			fprintf(stdout, "IPv6 %s\n", ifa->ifa_name);
+			network = get_network_info(ifaddr, ifa->ifa_name, 6);
+			fprintf(stdout, "\taddress : %s\n", network->ip_addr);
+		} else {}
+
+		if (ifa->ifa_addr->sa_family == AF_INET6 || ifa->ifa_addr->sa_family == AF_INET) {
+			if (strcmp("lo", ifa->ifa_name))
+				fprintf(stdout, "\thwaddr : %s\n", network->mac_addr);
+
+			free(network->mac_addr);
+			free(network);
 		}
 
-		family = ifa->ifa_addr->sa_family;
-		netmask = ifa->ifa_netmask;
-		mac_addr = get_mac_addr(ifa->ifa_name);
-
-		if (family == AF_INET && (ipv == 0 || ipv == 4)) {
-			s = getnameinfo(ifa->ifa_addr, (family == AF_INET) ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6), ip_address, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
-
-			if (s != 0) {
-				fprintf(stderr, "getnameinfo() failed: %s\n", gai_strerror(s));
-				exit(EXIT_FAILURE);
-			}
-			if (interface == NULL)
-			{
-				fprintf(stdout, "%s\n\taddress: %s\n", ifa->ifa_name,ip_address);
-			}
-		} else if (family == AF_INET6 && (ipv == 0 || ipv == 6)) {
-			s = getnameinfo(ifa->ifa_addr,
-			(family == AF_INET) ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6), ip_address, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
-
-			if (s != 0) {
-				fprintf(stderr, "getnameinfo() failed: %s\n", gai_strerror(s));
-				exit(EXIT_FAILURE);
-			}
-			if (interface != NULL)
-			{
-				if (!strcmp(interface, ifa->ifa_name))
-				{
-					fprintf(stdout, "IPv6 %s\n\taddress: %s\n", ifa->ifa_name,ip_address);
-					if (strcmp(ifa->ifa_name, "lo") != 0)
-					{
-						fprintf(stdout, "\tmac : %s\n", mac_addr);
-					}
-				}
-			} else {
-				fprintf(stdout, "IPv6 %s\n\taddress: %s\n", ifa->ifa_name,ip_address);
-				if (strcmp(ifa->ifa_name, "lo") != 0)
-				{
-					fprintf(stdout, "\tmac : %s\n", mac_addr);
-				}
-			}
-		}
-
-		if(family == AF_INET && netmask != NULL)
-		{
-			i = 0;
-			s = getnameinfo(netmask, sizeof(struct sockaddr_in), mask, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
-
-			inet_pton(AF_INET, mask, &suffix);
-			while (suffix > 0) {
-				suffix = suffix >> 1;
-				i++;
-			}
-			if (interface != NULL && !strcmp(interface, ifa->ifa_name))
-			{
-				fprintf(stdout, "IPv4 %s\n\taddress: %s\n", ifa->ifa_name,ip_address);
-				fprintf(stdout, "\tnetmask: %s\t\tCIDR : %d\n", mask, i);
-				get_broadcast(ip_address, mask);
-				if (strcmp(ifa->ifa_name, "lo") != 0)
-				{
-					fprintf(stdout, "\tmac : %s\n", mac_addr);
-				}
-			}
-			if (interface == NULL)
-			{
-				fprintf(stdout, "\tnetmask: %s\t\tCIDR : %d\n", mask, i);
-				get_broadcast(ip_address, mask);
-				if (strcmp(ifa->ifa_name, "lo") != 0)
-				{
-					fprintf(stdout, "\tmac : %s\n", mac_addr);
-				}
-			}
-		}
 	}
 
 	freeifaddrs(ifaddr);
-	return 0;
+	free(hostname);
 }
 
 bool is_iface_up(const char *interface) {
 	struct ifreq ifr;
 	int sock = socket(PF_INET6, SOCK_DGRAM, IPPROTO_IP);
+
 	memset(&ifr, 0, sizeof(ifr));
 	strcpy(ifr.ifr_name, interface);
+
 	if (ioctl(sock, SIOCGIFFLAGS, &ifr) < 0) {
 		perror("SIOCGIFFLAGS");
 	}
+
 	close(sock);
 	return !!(ifr.ifr_flags & IFF_UP);
 }
@@ -218,8 +257,6 @@ int up_iface(const char *interface)
 	return 0;
 }
 
-
-#ifdef linux
 int readNlSock(int sockFd, char *bufPtr, int seqNum, int pId)
 {
 	struct nlmsghdr *nlHdr;
@@ -254,6 +291,7 @@ int readNlSock(int sockFd, char *bufPtr, int seqNum, int pId)
 			break;
 		}
 	} while ((nlHdr->nlmsg_seq != (unsigned int)seqNum) || (nlHdr->nlmsg_pid != (unsigned int)pId));
+
 	return msgLen;
 }
 
@@ -267,6 +305,7 @@ void printRoute(struct route_info *rtInfo)
 		strcpy(tempBuf,  inet_ntoa(rtInfo->dstAddr));
 	else
 		sprintf(tempBuf, "*.*.*.*\t");
+
 	fprintf(stdout, "%s\t", tempBuf);
 
 	/* Print Gateway address */
@@ -274,6 +313,7 @@ void printRoute(struct route_info *rtInfo)
 		strcpy(tempBuf, (char *) inet_ntoa(rtInfo->gateWay));
 	else
 		sprintf(tempBuf, "*.*.*.*\t");
+
 	fprintf(stdout, "%s\t", tempBuf);
 
 	/* Print Interface Name*/
@@ -284,6 +324,7 @@ void printRoute(struct route_info *rtInfo)
 		strcpy(tempBuf, inet_ntoa(rtInfo->srcAddr));
 	else
 		sprintf(tempBuf, "*.*.*.*\t");
+
 	fprintf(stdout, "%s\n", tempBuf);
 }
 
@@ -294,7 +335,6 @@ void parseRoutes(struct nlmsghdr *nlHdr, struct route_info *rtInfo)
 	int rtLen;
 
 	rtMsg = (struct rtmsg *) NLMSG_DATA(nlHdr);
-
 
 	if ((rtMsg->rtm_family != AF_INET) || (rtMsg->rtm_table != RT_TABLE_MAIN))
 		return;
@@ -317,16 +357,14 @@ void parseRoutes(struct nlmsghdr *nlHdr, struct route_info *rtInfo)
 			break;
 		}
 	}
-	//printf("%s\n", inet_ntoa(rtInfo->dstAddr));
 
 	if (rtInfo->dstAddr.s_addr == 0)
 		sprintf(gateway, "%s", (char *) inet_ntoa(rtInfo->gateWay));
-	//printRoute(rtInfo);
 
 	return;
 }
 
-int print_gateway()
+int grab_gateway(void)
 {
 	struct nlmsghdr *nlMsg;
 	struct route_info *rtInfo;
@@ -350,36 +388,40 @@ int print_gateway()
 	nlMsg->nlmsg_pid = getpid();
 
 	if (send(sock, nlMsg, nlMsg->nlmsg_len, 0) < 0) {
-		fprintf(stderr, "Write To Socket Failed...\n");
+		fprintf(stderr, "write to socket failed...\n");
 		return -1;
 	}
 
 	/* Read the response */
-	if ((len = readNlSock(sock, msgBuf, msgSeq, getpid())) < 0) {
-		fprintf(stderr, "Read From Socket Failed...\n");
+	len = readNlSock(sock, msgBuf, msgSeq, getpid());
+
+	if (len < 0) {
+		fprintf(stderr, "fead from socket failed...\n");
 		return -1;
 	}
 
-	rtInfo = (struct route_info *) malloc(sizeof(struct route_info));
+	rtInfo = malloc(sizeof(struct route_info));
 
 	for (; NLMSG_OK(nlMsg, len); nlMsg = NLMSG_NEXT(nlMsg, len)) {
 		memset(rtInfo, 0, sizeof(struct route_info));
 		parseRoutes(nlMsg, rtInfo);
 	}
+
 	free(rtInfo);
 	close(sock);
-	if (strcmp(gateway, "")!=0)
-	{
+
+	if (strcmp(gateway, "")!=0) {
 		fprintf(stdout, "\nGateway : %s\n", gateway);
 	}
+
 	return 0;
 }
 
 int find_wifi(char* iw_interface){
+	int sock, i = 0;
 	wireless_scan_head head;
 	wireless_scan *result;
 	iwrange range;
-	int sock, i = 0;
 
 	// open iw_socket
 	sock = iw_sockets_open();
@@ -401,6 +443,7 @@ int find_wifi(char* iw_interface){
 		printf("%s\n", result->b.essid);
 		result = result->next; i++;
 	}
+
 	printf("found %d wifi networks\n", i);
 	return 0;
 }
@@ -420,6 +463,7 @@ int check_wireless(const char* ifname, char* protocol) {
 	if (ioctl(sock, SIOCGIWNAME, &pwrq) != -1) {
 		if (protocol) strncpy(protocol, pwrq.u.name, IFNAMSIZ);
 			close(sock);
+
 		return 1;
 	}
 
@@ -446,11 +490,10 @@ char *get_wireless_iface(void) {
 		if (check_wireless(ifa->ifa_name, protocol)) {
 			wireless_iface = ifa->ifa_name;
 			freeifaddrs(ifaddr);
+
 			return (char *)wireless_iface;
 		}
 	}
 	freeifaddrs(ifaddr);
 	return NULL;
 }
-
-#endif /* linux */

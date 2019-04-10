@@ -1,56 +1,51 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <time.h>
 #include <sys/utsname.h>
 #include <sys/statvfs.h>
 #include <unistd.h>
-#include <fcntl.h>
 #include <errno.h>
-#include <math.h>
-#ifdef linux
 #include <sys/sysinfo.h>
-#endif
 
 #include <include/system.h>
 #include <include/disk.h>
 #include <include/common.h>
 
-int username()
+int username(void)
 {
 	char *user=getenv("USER");
 	int uid = getuid(), gid = getgid();
-	if(user==NULL)
-	{
+
+	if(user == NULL) {
 		return EXIT_FAILURE;
 	}
+
 	fprintf(stdout, "User : \t\t\t%s\n",user);
 	fprintf(stdout, "UID : \t\t\t%d\n", uid);
 	fprintf(stdout, "GID : \t\t\t%d\n", gid);
 	return 0;
 }
 
-int infosys() 
+void infosys(void)
 {
 	if (uname(&buf) != 0)
-	{	
 		abort();
-	}
+
 	fprintf(stdout, "Operating System :\t%s\nversion :\t\t%s\narchitecture : \t\t%s\n", buf.sysname, buf.release, buf.machine);
-	#ifdef linux
+
 	if(sysinfo(&sys_info) != 0)
 		perror("sysinfo");
+
 	fprintf(stdout, "n° of processes : \t%d\n", sys_info.procs);
 	fprintf(stdout, "swap : \t\t\t%.2lf GB\n", convert2gb(0, sys_info.totalswap));
-	#endif
 	fprintf(stdout, "shell : \t\t%s\n",getenv("SHELL"));
-	return 0;
+
 }
-#ifdef linux
-int raminfo() 
+
+int raminfo(void)
 {
 	struct sysinfo si;
 	if (sysinfo(&si) == 0) {
@@ -61,7 +56,6 @@ int raminfo()
 	}
 	return 0;
 }
-#endif
 
 int fileinfo(char *path2file)
 {

@@ -6,6 +6,7 @@
 struct cpu_raw_data_t raw; 
 struct cpu_id_t data;    
 #endif
+
 int cpu_init()
 {
 	#ifdef LIBCPUID
