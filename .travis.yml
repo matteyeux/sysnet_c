@@ -1,7 +1,6 @@
 # This file is used to configure travis-ci build
 os :
   - linux
-  - osx
 
 dist: trusty
 sudo: required
@@ -12,11 +11,6 @@ compiler:
   - clang
   - gcc
 
-matrix:
-  exclude:
-      - os: osx
-        compiler: gcc
-        
 before_script : 
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then sudo apt-get install libiw-dev; fi
 
