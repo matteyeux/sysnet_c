@@ -11,9 +11,6 @@ compiler:
   - clang
   - gcc
 
-before_script : 
-  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then sudo apt-get install libiw-dev; fi
-
 script : 
   - ./scripts/travis-tests.sh 
 
