@@ -3,10 +3,15 @@ git clone https://github.com/matteyeux/libcpuid
 cd libcpuid
 ./autogen.sh
 make
-sudo make install
-if [[ $(uname) == 'Linux' ]];then
-        sudo ldconfig
+
+if [[ $1 == "drone" ]]; then
+	make install
+	ldconfig
+else
+	sudo make install
+	sudo ldconfig
 fi
+
 cd ..
 make
 ./sysnet -a && ./sysnet -d /

@@ -9,7 +9,7 @@ steps:
 - name: test
   image: gcc
   commands:
-  - ./scripts/travis_test.sh
+  - ./scripts/travis-tests.sh drone
 
 ...
 
