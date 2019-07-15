@@ -17,5 +17,4 @@ make
 ./sysnet -a && ./sysnet -d /
 ./sysnet -n list
 ./sysnet -n eth0
-./sysnet -f .
 ./sysnet -v

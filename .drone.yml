@@ -9,6 +9,8 @@ steps:
 - name: test
   image: gcc
   commands:
+  - apt update
+  - apt install libiw-dev -y 
   - ./scripts/travis-tests.sh drone
 
 ...
