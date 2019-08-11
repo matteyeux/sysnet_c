@@ -30,12 +30,9 @@ function install_libcpuid(){
 		cd libcpuid
 		#cp /usr/share/libtool/build-aux/ltmain.sh .
 		libtoolize
-		aclocal -I m4
 		autoreconf --install
-		ls .. && ls .
 		./configure
-		make 
-		sudo make install && cd ..
+		make && sudo make install && cd ..
 	else 
 		echo "skipping libcpuid"
 	fi
