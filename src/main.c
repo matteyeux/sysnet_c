@@ -72,15 +72,13 @@ int main(int argc, char *argv[])
 	#ifdef LIBCPUID
 	int cpu = 0;
 	#endif /* LIBCPUID */
-	if (argc < 2)
-	{	
+	if (argc < 2) {
 		usage(argv);
 		return 0;
 	}
-	while((opt = getopt_long(argc, (char* const *)argv, "asnchvdfw", longopts, &optindex)) != -1)
-	{
-		switch (opt)
-		{
+
+	while((opt = getopt_long(argc, (char* const *)argv, "asnchvdfw", longopts, &optindex)) != -1) {
+		switch (opt) {
 			case 'h' :
 				usage(argv);
 				return 0;
@@ -110,14 +108,13 @@ int main(int argc, char *argv[])
 			case 'v' :
 				fprintf(stdout, "%s, version %s\nCompiled on %s\nCopyright 2016-2019 - Mathieu Hautebas\n", TOOLNAME, VERSION, __DATE__);
 				break;
-
 			default:
 				usage(argv);
 				return -1;
 		}
 	}
 
-	if (all){
+	if (all) {
 		fprintf(stdout, "=== System ===\n");
 		username();
 		infosys();
@@ -135,7 +132,7 @@ int main(int argc, char *argv[])
 		#endif
 	}
 
-	if (system){
+	if (system) {
 		username();
 		infosys();
 		#ifdef linux
@@ -172,11 +169,9 @@ int main(int argc, char *argv[])
 		find_wifi(wireless_iface);
 	}
 
-	if (disk)
-	{
-		if (!argv[optind]) {
+	if (disk) {
+		if (!argv[optind])
 			argv[optind] = "/";
-		}
 
 		disk_info(argv[optind]);
 	}
