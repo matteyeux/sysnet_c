@@ -21,6 +21,8 @@
 
 #include <include/network.h>
 
+char gateway[255];
+
 char *get_hostname(void)
 {
 	char *host;

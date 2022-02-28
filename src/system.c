@@ -14,6 +14,8 @@
 #include <include/disk.h>
 #include <include/common.h>
 
+struct sysinfo sys_info;
+
 int username(void)
 {
 	char *user=getenv("USER");
@@ -31,6 +33,7 @@ int username(void)
 
 void infosys(void)
 {
+    struct utsname buf;
 	if (uname(&buf) != 0)
 		abort();
 

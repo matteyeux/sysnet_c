@@ -1,7 +1,5 @@
 #include <sys/sysinfo.h>
 
-struct sysinfo sys_info;
-
 void infosys(void);
 int username(void);
 int disk_info(const char *partition);

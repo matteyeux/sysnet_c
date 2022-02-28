@@ -5,6 +5,8 @@
 #include <include/disk.h>
 #include <include/common.h>
 
+struct utsname buf;
+
 int disk_info(const char *partition)
 {
 	struct statvfs buf;

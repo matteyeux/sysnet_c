@@ -10,8 +10,6 @@
 
 #define BUFSIZE 8192
 
-char gateway[255];
-
 typedef struct net_info_s net_info_t;
 struct route_info {
 	struct in_addr dstAddr;
